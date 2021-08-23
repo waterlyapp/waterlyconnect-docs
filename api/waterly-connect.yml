@@ -37,6 +37,7 @@ components:
 
     Device:
       type: object
+      description: Information describing the peer submitting information to WaterlyConnect.
       required:
         - "id"
         - "type"
@@ -68,6 +69,10 @@ components:
 
     WaterlyConnectSubmission:
       type: object
+      required:
+        - "timestamp"
+        - "device"
+        - "tags"
       properties:
         timestamp:
           type: integer
@@ -77,6 +82,7 @@ components:
           $ref: "#/components/schemas/Device"
         tags:
           type: array
+          description: An array of measurements to be submitted to Waterly.
           items:
             $ref: '#/components/schemas/TagDatum'
 
