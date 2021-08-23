@@ -5,6 +5,5 @@ to be used within the Waterly system.
 
 ## Overview
 
-WaterlyConnect is exposed as a REST-based API.  The full details of which may be
-found here: https://waterlyapp.github.io/waterlyconnect-docs/api/
+WaterlyConnect is exposed as a REST-based API.  The full details are available in the [OpenAPI Definition](https://waterlyapp.github.io/waterlyconnect-docs/api/) of the API.
 
