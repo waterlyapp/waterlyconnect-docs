@@ -7,7 +7,7 @@ to be used within the Waterly system.
 
 WaterlyConnect is exposed as a REST-based API.  The full details are available in the [OpenAPI Definition](https://waterlyapp.github.io/waterlyconnect-docs/api/) of the API.
 
-A few key valuse will need to be supplied by the Waterly support team, including:
+A few key values will need to be supplied by the Waterly support team, including:
 
 - The value for the `x-waterly-connect-token` request header
 - The assigned device id for the device block
