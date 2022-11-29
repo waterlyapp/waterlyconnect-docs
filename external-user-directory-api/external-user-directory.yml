@@ -1,0 +1,181 @@
+openapi: "3.0.2"
+info:
+  title: Waterly External User Directory API
+  version: "1.0"
+
+components:
+  schemas:
+    UserSearchRequest:
+      type: object
+      required:
+        - "searchInput"
+      properties:
+        searchInput:
+          type: string
+          description: The search input to be used.  May be a substring or fuzzy match term.
+          example: "Joe"
+        maxResults:
+          type: integer
+          description: (Optional) A hint from the requester as to the maximum number of desired results.
+          example: 10
+
+    UserLookupRequest:
+      type: object
+      required:
+        - "id"
+      properties:
+        id:
+          type: string
+          description: The id of the user to be looked up
+          example: "abc123"
+
+    User:
+      type: object
+      required:
+        - "id"
+        - "firstName"
+        - "lastName"
+        - "email"
+      properties:
+        id:
+          type: string
+          description: A unique, stable, opaque identifier for the given user.  Waterly will not interpret this value in any way, it is used solely for synchronization purposes.
+          example: "abc123"
+        firstName:
+          type: string
+          description: The user's first name
+          example: "Joe"
+        lastName:
+          type: string
+          description: The user's last name
+          example: "Schmoe"
+        email:
+          type: string
+          format: email
+          description: The user's email address
+          example: "joe@schmoe.com"
+        metadataJSON:
+          type: string
+          description: Any desired metadata to include with the core user properties. The contents of the value should be string-encoded JSON data
+          example: "{\"foo\":\"bar\"}"
+
+    ListOfUsers:
+      type: array
+      description: A list of Users
+      items:
+        $ref: '#/components/schemas/User'
+
+    RoleChangeAction:
+      type: string
+      enum: ["Grant", "Revoke"]
+      example: "Grant"
+      
+    Role:
+      type: string
+      enum: ["ReadOnly", "Operator", "Supervisor"]
+      example: "Operator"
+
+    RoleUpdatedCallbackRequest:
+      type: object
+      required:
+        - "userId"
+        - "action"
+        - "role"
+        - "systemName"
+        - "systemId"
+        - "systemURL"
+      properties:
+        userId:
+          type: string
+          description: The user's Id that was modified
+          example: "abc123"
+        action:
+          $ref: '#/components/schemas/RoleChangeAction'
+        role:
+          $ref: '#/components/schemas/Role'
+        systemName:
+          type: string
+          description: The name of the Water or Wastewater system that access was just changed for
+          example: "Lake Zebra, IL"
+        systemId:
+          type: integer
+          description: The Waterly internal identifier for the system that access was just changed for
+          example: 10
+        systemURL:
+          type: string
+          format: uri
+          description: The Waterly URL for the given system
+          example: "https://app.waterlyapp.com/accounts/10"
+
+paths:
+  /search:
+    post:
+      tags:
+        - "Queries"
+      summary: Allows a user to search the external user directory
+      operationId: searchUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSearchRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfUsers'
+        "400":
+          description: Malformed input
+        "500":
+          description: Internal System Error
+
+  /lookupById:
+    post:
+      tags:
+        - "Queries"
+      summary: Allows a user to lookup a single user by their external Id
+      operationId: lookupUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLookupRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Malformed input
+        "404":
+          description: User not found
+        "500":
+          description: Internal System Error
+          
+  /roleUpdated:
+    post:
+      tags:
+        - "Callbacks"
+      summary: Waterly will call this API when a user's role is updated within Waterly
+      operationId: roleUpdated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleUpdatedCallbackRequest'
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: OK
+        "400":
+          description: Malformed input
+        "500":
+          description: Internal System Error
+      
+      
+      

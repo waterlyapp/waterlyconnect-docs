@@ -1,0 +1,120 @@
+openapi: "3.0.2"
+info:
+  title: WaterlyConnect
+  version: "1.0"
+servers:
+  - url: https://app.waterlyapp.com/connect
+
+components:
+  schemas:
+    TagDatum:
+      type: object
+      required:
+        - "name"
+        - "value"
+        - "last_change_timestamp"
+      properties:
+        name:
+          type: string
+          description: The tag or metric name.  This value must be unique per Device Id.
+          example: "WTP1_FL_WEIGHT"
+        type:
+          type: integer
+          description: (Optional, Typically Unused) unit type enum value, as assigned by Waterly administrators.
+          example: 0
+        unit:
+          type: string
+          description: (Optional) Unit type of the provided Datum.
+          example: "LBR"
+        value:
+          type: string
+          description: The metric or tag value.  Values are expected to be numeric, but transmitted as a string.
+          example: "900.2"
+        last_change_timestamp:
+          type: integer
+          description: The time at which the vaule was captured or last changed.  This is a Unix-style timestamp, measured in whole integers, as the number of seconds elapsed since the Epoch (1970-01-01 00:00:00 UTC).
+          example: 1603806033
+
+    Device:
+      type: object
+      description: Information describing the peer submitting information to WaterlyConnect.
+      required:
+        - "id"
+        - "type"
+      properties:
+        id:
+          type: string
+          description: Identifier for the remote system, assigned by the Waterly administrative team.
+          example: "sample-device-00001"
+        type:
+          type: string
+          description: The type of integration device, assigned by the Waterly administrative team.
+          example: "waterly-connect-virtual"
+        lan_ip:
+          type: string
+          description: (Optional) For physical devices, the internal IP address of the hardware device.
+          example: "192.168.1.6"
+        wan_ip:
+          type: string
+          description: (Optional) For physical devices, the external/Internet-facing IP address of the hardware device.
+          example: "0.0.0.0"
+        serial:
+          type: string
+          description: (Optional) For physical devices, the unique serial number for the given piece of equipment.
+          example: "ABC-PDQ-123456"
+        uptime_millis:
+          type: integer
+          description: (Optional) For physical devices, the amount of time (measured in milliseconds) since last boot.
+          example: 23452323234113
+
+    WaterlyConnectSubmission:
+      type: object
+      required:
+        - "timestamp"
+        - "device"
+        - "tags"
+      properties:
+        timestamp:
+          type: integer
+          description: A Unix-style timestamp, measured in whole integers, as the number of seconds elapsed since the Epoch (1970-01-01 00:00:00 UTC).
+          example: 1629489199
+        device:
+          $ref: "#/components/schemas/Device"
+        tags:
+          type: array
+          description: An array of measurements to be submitted to Waterly.
+          items:
+            $ref: '#/components/schemas/TagDatum'
+
+paths:
+  /submit:
+    post:
+      tags:
+        - "Data Submission"
+      summary: Submits new data to WaterlyConnect
+      operationId: submitData
+      parameters:
+        - in: header
+          name: x-waterly-request-type
+          schema:
+            type: string
+          example: "WaterlyConnect"
+          required: true
+        - in: header
+          name: x-waterly-connect-token
+          schema:
+            type: string
+          example: "abc-pdq"
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WaterlyConnectSubmission'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Malformed input
+        "500":
+          description: Internal System Error
