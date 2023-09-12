@@ -18,6 +18,16 @@ components:
           type: integer
           description: (Optional) A hint from the requester as to the maximum number of desired results.
           example: 10
+        status:
+          type: string
+          description: (Optional) Filter users by status
+          example: "Inactive"
+          default: "Active"
+        inactiveFrom:
+          type: string
+          format: date
+          description: (Optional) Filter users by inactive from date
+          example: "2023-09-12"
 
     UserLookupRequest:
       type: object
@@ -69,7 +79,7 @@ components:
       type: string
       enum: ["Grant", "Revoke"]
       example: "Grant"
-      
+
     Role:
       type: string
       enum: ["ReadOnly", "Operator", "Supervisor"]
@@ -155,7 +165,7 @@ paths:
           description: User not found
         "500":
           description: Internal System Error
-          
+
   /roleUpdated:
     post:
       tags:
@@ -176,6 +186,5 @@ paths:
           description: Malformed input
         "500":
           description: Internal System Error
-      
-      
-      
+
+
