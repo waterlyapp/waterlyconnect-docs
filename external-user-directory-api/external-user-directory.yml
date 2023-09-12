@@ -12,7 +12,7 @@ components:
       properties:
         searchInput:
           type: string
-          description: The search input to be used.  May be a substring or fuzzy match term.
+          description: (Optional) The search input to be used.  May be a substring or fuzzy match term.
           example: "Joe"
         maxResults:
           type: integer
