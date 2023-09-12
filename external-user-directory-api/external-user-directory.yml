@@ -18,11 +18,6 @@ components:
           type: integer
           description: (Optional) A hint from the requester as to the maximum number of desired results.
           example: 10
-        status:
-          type: string
-          description: (Optional) Filter users by status
-          example: "Inactive"
-          default: "Active"
         inactiveFrom:
           type: string
           format: date
