@@ -12,12 +12,17 @@ components:
       properties:
         searchInput:
           type: string
-          description: The search input to be used.  May be a substring or fuzzy match term.
+          description: (Optional) The search input to be used.  May be a substring or fuzzy match term.
           example: "Joe"
         maxResults:
           type: integer
           description: (Optional) A hint from the requester as to the maximum number of desired results.
           example: 10
+        inactiveFrom:
+          type: string
+          format: date
+          description: (Optional) Filter users by inactive from date
+          example: "2023-09-12"
 
     UserLookupRequest:
       type: object
@@ -69,7 +74,7 @@ components:
       type: string
       enum: ["Grant", "Revoke"]
       example: "Grant"
-      
+
     Role:
       type: string
       enum: ["ReadOnly", "Operator", "Supervisor"]
@@ -155,7 +160,7 @@ paths:
           description: User not found
         "500":
           description: Internal System Error
-          
+
   /roleUpdated:
     post:
       tags:
@@ -176,6 +181,5 @@ paths:
           description: Malformed input
         "500":
           description: Internal System Error
-      
-      
-      
+
+
