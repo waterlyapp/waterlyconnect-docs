@@ -1,0 +1,93 @@
+openapi: "3.0.2"
+info:
+  title: Waterly External System API
+  version: "1.0"
+
+components:
+  schemas:
+    System:
+      type: object
+      required:
+        - id
+        - name
+        - state
+        - externalId
+        - externalOwner
+        - externalMetadata
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: A unique, stable, opaque identifier for the given user.  Waterly will not interpret this value in any way, it is used solely for synchronization purposes.
+          example: "abc123"
+        name:
+          type: string
+          description: system name
+          example: "ACME Corp"
+        state:
+          type: string
+          description: system state
+          example: "TX"
+        externalId:
+          type: string
+          description: id in external organization
+          example: "1337"
+        externalOwner:
+          type: string
+        externalMetadata:
+          type: object
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    ListOfSystems:
+      type: array
+      description: A list of System
+      items:
+        $ref: '#/components/schemas/System'
+
+paths:
+  /:
+    get:
+      tags:
+        - "Queries"
+      summary: Allows a user to search for systems
+      operationId: searchSystems
+      parameters:
+        - in: query
+          name: searchInput
+          schema:
+            type: string
+          required: false
+          description: Search for systems whose name starts with string (case insensitive)
+        - in: query
+          name: maxResults
+          schema:
+            type: integer
+          required: false
+          description: Specify how many records to return in result
+        - in: query
+          name: externalId
+          schema:
+            type: string
+          required: false
+          description: Search for specific external id
+        - in: query
+          name: externalOwner
+          schema:
+            type: string
+          required: false
+          description: Search for specific external owner
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfSystems'
+        "400":
+          description: Malformed input
+        "500":
+          description: Internal System Error
