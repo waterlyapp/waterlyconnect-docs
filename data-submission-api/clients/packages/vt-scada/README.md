@@ -34,10 +34,10 @@ Edit `WaterlyTags.csv` to define which tags are sent and when:
 - `IntervalNum`:
   - `minute`: every N minutes (e.g., `5`)
   - `hour`: every N hours (e.g., `1`)
-  - `day_at_time`: HHMMSS in 24-hour time (e.g., `070000` for 7:00 AM)
+  - `day_at_time`: HHMMSS in 24-hour time; use `|` to send multiple times (e.g., `070000|190000`)
 - `Description`: optional note for operators (avoid commas)
 
-Only rows with `Enabled=1` are sent. For `day_at_time`, use seconds `00` unless your trigger runs more frequently than once per minute.
+Only rows with `Enabled=1` are sent. Spaces around `Interval` or `IntervalNum` are ignored, but avoid spaces in `TagPath`. For `day_at_time`, use seconds `00` unless your trigger runs more frequently than once per minute.
 
 ## Install in VTScada
 1. Place the files in the paths above. Create `Config` and `Logs` folders if they do not exist.

@@ -3,5 +3,5 @@ Site1\\Tank1\\Level,1,minute,5,Main tank level
 Site1\\Tank1\\Flow,1,minute,5,Inflow rate
 Site1\\Pump1\\Status,1,minute,1,Pump running status (0/1)
 Site1\\Pump1\\Runtime,1,hour,1,Pump runtime hours
-Site1\\Reservoir\\Level,1,day_at_time,070000,Daily reservoir level snapshot
+Site1\\Reservoir\\Level,1,day_at_time,070000|190000,Daily reservoir level snapshot
 Site1\\Reservoir\\Volume,0,hour,1,Disabled sample tag

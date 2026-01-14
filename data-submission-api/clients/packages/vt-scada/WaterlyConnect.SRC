@@ -81,6 +81,51 @@ WaterlyConnectPost(
     WriteFile(LogPath, NewContent);
   ]
 
+  TrimCr(Value)
+  [
+    Parts;
+    Clean;
+    idx;
+
+    Parts = Split(Value, "\r");
+    Clean = "";
+    idx = 0;
+    Loop idx < ArraySize(Parts);
+    [
+      Clean = Concat(Clean, Parts[idx]);
+      idx = idx + 1;
+    ]
+
+    Return(Clean);
+  ]
+
+  CleanToken(Value)
+  [
+    Parts;
+    SubParts;
+    Clean;
+    idx;
+    j;
+
+    Parts = Split(Value, " ");
+    Clean = "";
+    idx = 0;
+    Loop idx < ArraySize(Parts);
+    [
+      SubParts = Split(Parts[idx], "\r");
+      j = 0;
+      Loop j < ArraySize(SubParts);
+      [
+        Clean = Concat(Clean, SubParts[j]);
+        j = j + 1;
+      ]
+
+      idx = idx + 1;
+    ]
+
+    Return(Clean);
+  ]
+
   InitNow()
   [
     NowDay = Floor(CurrentTime(6));
@@ -100,8 +145,11 @@ WaterlyConnectPost(
     TargetSecond;
     DivResult;
     Remainder;
+    Times;
+    TimeIndex;
+    TimeValue;
 
-    CacheKey = Concat(Interval, "|", Text(IntervalNum, "#"));
+    CacheKey = Concat(Interval, "|", IntervalNum);
     If Valid(ScheduleCache[CacheKey]);
     [
       Return(ScheduleCache[CacheKey]);
@@ -135,16 +183,24 @@ WaterlyConnectPost(
     ]
     Else If Interval == "day_at_time";
     [
-      TargetHour = Floor(IntervalNum / 10000);
-      TargetMinute = Floor((IntervalNum - (TargetHour * 10000)) / 100);
-      TargetSecond = IntervalNum - (TargetHour * 10000) - (TargetMinute * 100);
-      WindowKey = NowDay;
-
-      If NowHour == TargetHour && NowMinute == TargetMinute &&
-         NowSecond >= TargetSecond && NowSecond < (TargetSecond + 5) &&
-         LastRunBySchedule[CacheKey] != WindowKey;
+      Times = Split(IntervalNum, "|");
+      TimeIndex = 0;
+      Loop TimeIndex < ArraySize(Times);
       [
-        Due = TRUE;
+        TimeValue = Times[TimeIndex];
+        TargetHour = Floor(TimeValue / 10000);
+        TargetMinute = Floor((TimeValue - (TargetHour * 10000)) / 100);
+        TargetSecond = TimeValue - (TargetHour * 10000) - (TargetMinute * 100);
+        WindowKey = (NowDay * 1000000) + TimeValue;
+
+        If NowHour == TargetHour && NowMinute == TargetMinute &&
+           NowSecond >= TargetSecond && NowSecond < (TargetSecond + 5) &&
+           LastRunBySchedule[CacheKey] != WindowKey;
+        [
+          Due = TRUE;
+        ]
+
+        TimeIndex = TimeIndex + 1;
       ]
     ]
     Else
@@ -169,6 +225,8 @@ WaterlyConnectPost(
     TagList;
     Interval;
     IntervalNum;
+    EnabledValue;
+    TagPath;
 
     FileContent = ReadFile(WaterlyTagsCsv);
     If !Valid(FileContent);
@@ -187,12 +245,14 @@ WaterlyConnectPost(
       Fields = Split(Lines[i], ",");
       If ArraySize(Fields) >= 4;
       [
-        Interval = Fields[2];
-        IntervalNum = Fields[3];
+        TagPath = TrimCr(Fields[0]);
+        EnabledValue = CleanToken(Fields[1]);
+        Interval = CleanToken(Fields[2]);
+        IntervalNum = CleanToken(Fields[3]);
 
-        If (Fields[1] == "1" || Fields[1] == "1\r") && ScheduleIsDue(Interval, IntervalNum);
+        If EnabledValue == "1" && ScheduleIsDue(Interval, IntervalNum);
         [
-          TagList = ArrayAppend(TagList, Fields[0]);
+          TagList = ArrayAppend(TagList, TagPath);
         ]
       ]
 
