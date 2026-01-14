@@ -11,7 +11,7 @@ This guide provides a single, supported path for sending VTScada tag data to Wat
 ## Files to Install
 Copy the following files into your VTScada application folder (example paths shown):
 - Script module: `C:\VTScada\MyApp\Source\WaterlyConnect.SRC`
-- Tag list: `C:\VTScada\MyApp\Config\WaterlyTags.csv`
+- Tag list: `C:\VTScada\MyApp\WaterlyConnect\Config\WaterlyTags.csv`
 
 Sample files are included in this repo:
 - `packages/vt-scada/WaterlyConnect.SRC`
@@ -22,8 +22,8 @@ Open `WaterlyConnect.SRC` and edit only this configuration block:
 - `WaterlyURL`: Waterly endpoint (typically `https://app.waterlyapp.com/connect/submit`)
 - `WaterlyToken`: your API token
 - `WaterlyDeviceID`: your device ID
-- `WaterlyTagsCsv`: full path to the CSV file
-- `LogPath`: file path for support logs
+- `WaterlyTagsCsv`: full path to the CSV file (recommended under `MyApp\WaterlyConnect\Config`)
+- `LogPath`: file path for support logs (recommended under `MyApp\WaterlyConnect\Logs`)
 - `BatchSize`: default is `100` (higher values may degrade processing performance)
 
 ## CSV Configuration (Schedules)
@@ -40,9 +40,11 @@ Edit `WaterlyTags.csv` to define which tags are sent and when:
 Only rows with `Enabled=1` are sent. Spaces around `Interval` or `IntervalNum` are ignored, but avoid spaces in `TagPath`. For `day_at_time`, use seconds `00` unless your trigger runs more frequently than once per minute.
 
 ## Install in VTScada
-1. Place the files in the paths above. Create `Config` and `Logs` folders if they do not exist.
+1. Place the files in the paths above. Create `MyApp\WaterlyConnect\Config` and `MyApp\WaterlyConnect\Logs` if they do not exist.
 2. In VTScada, run **File > Import File Changes** to load `WaterlyConnect.SRC`.
-3. Create a **Trigger Tag** (e.g., `WaterlyTrigger`) that runs **every minute**.
+3. Create a **Trigger Tag** (or timer tag) that runs **every minute**:
+   - **On condition**: repeat every 60 seconds
+   - **Off condition**: fixed delay 5 seconds (creates a short pulse)
 4. Create a **Script Tag** (e.g., `WaterlyPost`):
    - Module: `WaterlyConnectPost`
    - Scope Tag: your trigger tag
@@ -50,7 +52,7 @@ Only rows with `Enabled=1` are sent. Spaces around `Interval` or `IntervalNum` a
 ## Logging and Troubleshooting
 The script logs to both VTScada logs and a file path you set in `LogPath`.
 - VTScada logs: open **Log Viewer** and search for `WaterlyConnect`.
-- File log: navigate to the file and share it with support if needed.
+- File log: navigate to the file under `MyApp\WaterlyConnect\Logs` and share it with support if needed.
 
 ## How the Script Works
 - Reads enabled tags from `WaterlyTags.csv` on each trigger.

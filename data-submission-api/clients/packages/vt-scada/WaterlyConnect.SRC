@@ -12,8 +12,8 @@ WaterlyConnectPost(
   WaterlyURL      = "https://app.waterlyapp.com/connect/submit";
   WaterlyToken    = "<YOUR_API_TOKEN>";
   WaterlyDeviceID = "<YOUR_DEVICE_ID>";
-  WaterlyTagsCsv  = "C:\\VTScada\\MyApp\\Config\\WaterlyTags.csv";
-  LogPath         = "C:\\VTScada\\MyApp\\Logs\\WaterlyConnect.log";
+  WaterlyTagsCsv  = "C:\\VTScada\\MyApp\\WaterlyConnect\\Config\\WaterlyTags.csv";
+  LogPath         = "C:\\VTScada\\MyApp\\WaterlyConnect\\Logs\\WaterlyConnect.log";
   BatchSize       = 100;  { Tags per HTTP request }
   EnableLogging   = TRUE;
   EnableFileLog   = TRUE;
