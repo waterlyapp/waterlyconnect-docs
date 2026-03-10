@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VTScada Integration — WaterlyConnect Integration Guide</title>
+  <meta name="description" content="Send VTScada tag data to WaterlyConnect using VTScada's native HTTPSend scripting. A .SRC module and CSV tag list — no external server required." />
+  <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../../">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../">Integrations</a>
+      <a class="nav-link" href="../../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Integrations</a>
+        <span class="bc-sep">/</span>
+        <span>VTScada Integration</span>
+      </div>
+      <div class="page-hero-meta">
+        <span class="label label-lime">Gateway</span>
+        <span class="tag tag-default">VTScada 12.0.19+</span>
+        <span class="tag tag-default">Native HTTPSend</span>
+        <span class="tag tag-default">CSV Tag Config</span>
+      </div>
+      <h1 class="page-hero-title">VTScada Integration</h1>
+      <p class="page-hero-desc">
+        A VTScada script module (<code>.SRC</code>) and CSV tag list that submit tag data directly
+        to WaterlyConnect using VTScada's native HTTPSend capabilities. Configure which tags to
+        send and on what schedule in a single CSV file — no external server or middleware needed.
+        Written for integrators with minimal scripting experience.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../../">Open API Reference</a>
+        <a class="btn btn-secondary" href="../packages/vt-scada/WaterlyConnect.SRC" download="WaterlyConnect.SRC">Download Script Module</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">12.0.19+</span><span class="stat-label">VTScada version</span></div>
+        <div class="stat-box"><span class="stat-val">CSV</span><span class="stat-label">Tag &amp; schedule config</span></div>
+        <div class="stat-box"><span class="stat-val">0</span><span class="stat-label">External servers needed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell" style="padding:2.5rem 0 5rem;">
+
+    <nav class="page-nav">
+      <a class="page-nav-link" href="#prereqs">Prerequisites</a>
+      <a class="page-nav-link" href="#install">Install Files</a>
+      <a class="page-nav-link" href="#configure">Configure</a>
+      <a class="page-nav-link" href="#tags">Tag Schedule CSV</a>
+      <a class="page-nav-link" href="#vtscada">Add to VTScada</a>
+      <a class="page-nav-link" href="#files">Files</a>
+    </nav>
+
+    <div class="content-grid" id="prereqs" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Prerequisites</div>
+        <ul class="check-list">
+          <li><span>VTScada <strong>12.0.19 or later</strong>. Check your version under <strong>Help ▸ About VTScada</strong>. If you are on an earlier version, contact <a href="mailto:support@waterly.com" style="color:var(--aqua)">support@waterly.com</a>.</span></li>
+          <li><span>Waterly credentials: API token, device ID, and submission URL.</span></li>
+          <li><span>Access to the VTScada application folder to place the <code>.SRC</code> and <code>.csv</code> files.</span></li>
+          <li><span>Outbound HTTPS access from the VTScada host to <code>app.waterlyapp.com</code>.</span></li>
+        </ul>
+      </div>
+      <div class="content-card dark" data-reveal id="install" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Install Files</div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 0.75rem;">Copy both files into your VTScada application folder. Create the subdirectories if they do not exist.</p>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div>Copy <code>WaterlyConnect.SRC</code> to your application's <strong>Source</strong> folder:<br><span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-2);">C:\VTScada\MyApp\Source\WaterlyConnect.SRC</span></div></li>
+          <li><span class="flow-num">2</span><div>Copy <code>WaterlyTags.csv</code> to a <strong>Config</strong> subfolder:<br><span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-2);">C:\VTScada\MyApp\WaterlyConnect\Config\WaterlyTags.csv</span></div></li>
+          <li><span class="flow-num">3</span><div>Create the <strong>Logs</strong> folder for support logs:<br><span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-2);">C:\VTScada\MyApp\WaterlyConnect\Logs\</span></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="content-grid" id="configure" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">Script Configuration</div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 0.75rem;">Open <code>WaterlyConnect.SRC</code> and edit only this configuration block at the top of the file:</p>
+        <pre class="code-block"><code>WaterlyURL      = "https://app.waterlyapp.com/connect/submit"
+WaterlyToken    = "&lt;YOUR_API_TOKEN&gt;"
+WaterlyDeviceID = "&lt;YOUR_DEVICE_ID&gt;"
+WaterlyTagsCsv  = "C:\VTScada\MyApp\WaterlyConnect\Config\WaterlyTags.csv"
+LogPath         = "C:\VTScada\MyApp\WaterlyConnect\Logs"
+BatchSize       = 100</code></pre>
+        <div class="notice notice-warn" style="margin-top:1rem;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2L14 13H2L8 2Z" stroke="#f0a429" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6v3" stroke="#f0a429" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.6" fill="#f0a429"/></svg>
+          <span>Keep your API token private. Do not commit it to source control. Higher <code>BatchSize</code> values (above 100) may degrade VTScada processing performance.</span>
+        </div>
+      </div>
+      <div class="content-card" data-reveal id="tags" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Tag Schedule CSV</div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 0.75rem;">Edit <code>WaterlyTags.csv</code> to define which tags to send and when. Only rows with <code>Enabled=1</code> are submitted.</p>
+        <table class="schema-table" style="font-size:0.78rem;">
+          <thead><tr><th>Column</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="fname">TagPath</td><td class="fdesc">Full VTScada tag path. Use backslashes. No spaces.</td></tr>
+            <tr><td class="fname">Enabled</td><td class="fdesc"><code>1</code> to submit, <code>0</code> to skip.</td></tr>
+            <tr><td class="fname">Interval</td><td class="fdesc"><code>minute</code>, <code>hour</code>, or <code>day_at_time</code>.</td></tr>
+            <tr><td class="fname">IntervalNum</td><td class="fdesc">For <code>minute</code>/<code>hour</code>: every N intervals. For <code>day_at_time</code>: HHMMSS in 24-hour time; use <code>|</code> to send at multiple times (e.g., <code>070000|190000</code>).</td></tr>
+            <tr><td class="fname">Description</td><td class="fdesc">Optional operator note. Avoid commas.</td></tr>
+          </tbody>
+        </table>
+        <pre class="code-block" style="margin-top:1rem;"><code>TagPath,Enabled,Interval,IntervalNum,Description
+Site1\\Tank1\\Level,1,minute,5,Main tank level
+Site1\\Pump1\\Status,1,minute,1,Pump running status
+Site1\\Pump1\\Runtime,1,hour,1,Pump runtime hours
+Site1\\Reservoir\\Level,1,day_at_time,070000|190000,Daily snapshot</code></pre>
+      </div>
+    </div>
+
+    <div class="content-grid" id="vtscada" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Add to VTScada</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div><strong>Import the script.</strong> In VTScada, run <strong>File ▸ Import File Changes</strong> to load <code>WaterlyConnect.SRC</code>.</div></li>
+          <li><span class="flow-num">2</span><div><strong>Create a Trigger Tag</strong> that runs every minute:<br>
+            <ul style="margin:0.4rem 0 0 0;padding-left:1rem;font-size:0.82rem;color:var(--text-2);">
+              <li>On condition: repeat every <strong>60 seconds</strong></li>
+              <li>Off condition: fixed delay <strong>5 seconds</strong> (creates a short pulse)</li>
+            </ul>
+          </div></li>
+          <li><span class="flow-num">3</span><div><strong>Create a Script Tag</strong> (e.g., <code>WaterlyPost</code>):<br>
+            <ul style="margin:0.4rem 0 0 0;padding-left:1rem;font-size:0.82rem;color:var(--text-2);">
+              <li>Module: <code>WaterlyConnectPost</code></li>
+              <li>Scope Tag: your trigger tag from step 2</li>
+            </ul>
+          </div></li>
+          <li><span class="flow-num">4</span><div><strong>Verify.</strong> Open <strong>Log Viewer</strong> and search for <code>WaterlyConnect</code> to confirm the script is running and submissions are succeeding.</div></li>
+        </ol>
+      </div>
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">How It Works</div>
+        <ul class="check-list">
+          <li><span>The trigger tag fires the <code>WaterlyConnectPost</code> script module <strong>every minute</strong>.</span></li>
+          <li><span>On each run, the script reads <code>WaterlyTags.csv</code> and filters rows by schedule — only tags whose interval matches the current time are included.</span></li>
+          <li><span>Matching tags are read from VTScada and assembled into a WaterlyConnect JSON payload in <strong>batches of up to 100</strong>.</span></li>
+          <li><span>Each batch is POSTed via VTScada's native <strong>HTTPSend</strong> with the required auth headers.</span></li>
+          <li><span>Results are logged to the VTScada <strong>Log Viewer</strong> and to the file path in <code>LogPath</code>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:2rem;" id="files" data-reveal>
+      <div class="content-card" style="scroll-margin-top:calc(var(--nav-h) + 1rem); grid-column: 1 / -1;">
+        <div class="content-card-title">Files</div>
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-card-title">Script module</div>
+            <p class="download-card-desc">The <code>WaterlyConnect.SRC</code> VTScada script module. Copy to your application's Source folder.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/vt-scada/WaterlyConnect.SRC" download="WaterlyConnect.SRC">Download .SRC</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Tag list template</div>
+            <p class="download-card-desc">Sample <code>WaterlyTags.csv</code> with example tag paths for all three schedule types.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/vt-scada/WaterlyTags.csv" download="WaterlyTags.csv">Download .csv</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Package README</div>
+            <p class="download-card-desc">Full setup walkthrough, CSV reference, and troubleshooting notes.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/vt-scada/README.md">Open README</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Source folder</div>
+            <p class="download-card-desc">Full source path in the waterlyconnect-docs repository.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/vt-scada" target="_blank" rel="noopener">View on GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">VTScada Integration</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../">All Integrations</a>
+      <a class="footer-link" href="../../">API Reference</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../../assets/site/app.js"></script>
+</body>
+</html>
