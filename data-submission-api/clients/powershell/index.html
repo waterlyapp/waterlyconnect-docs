@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PowerShell Module — WaterlyConnect Integration Guide</title>
+  <meta name="description" content="A PowerShell module for WaterlyConnect. Import a .psm1 file and use cmdlet-style helpers to build and post payloads from Windows environments." />
+  <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../../">
+      <img src="../../../assets/site/images/waterly-logo.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../">Integrations</a>
+      <a class="nav-link" href="../../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Integrations</a>
+        <span class="bc-sep">/</span>
+        <span>PowerShell Module</span>
+      </div>
+      <div class="page-hero-meta">
+        <span class="label label-aqua">SDK</span>
+        <span class="tag tag-default">PowerShell 5.1+</span>
+        <span class="tag tag-default">PS 7+</span>
+        <span class="tag tag-default">Windows</span>
+      </div>
+      <h1 class="page-hero-title">PowerShell Module</h1>
+      <p class="page-hero-desc">
+        A single <code>.psm1</code> module that exposes cmdlet-style helpers for building and
+        posting WaterlyConnect payloads from Windows environments. Compatible with Windows PowerShell
+        5.1 and PowerShell 7+. Ideal for scheduled tasks, Windows automation scripts, and SCADA
+        systems that already use PowerShell for orchestration.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../../">Open API Reference</a>
+        <a class="btn btn-secondary" href="../packages/powershell-client/WaterlyConnect.psm1" download="WaterlyConnect.psm1">Download Module</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">5.1+</span><span class="stat-label">Windows PowerShell</span></div>
+        <div class="stat-box"><span class="stat-val">7+</span><span class="stat-label">PowerShell Core</span></div>
+        <div class="stat-box"><span class="stat-val">.psm1</span><span class="stat-label">Single file artifact</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell" style="padding:2.5rem 0 5rem;">
+
+    <nav class="page-nav">
+      <a class="page-nav-link" href="#prereqs">Prerequisites</a>
+      <a class="page-nav-link" href="#quickstart">Quick Start</a>
+      <a class="page-nav-link" href="#example">Code Example</a>
+      <a class="page-nav-link" href="#api">API Reference</a>
+      <a class="page-nav-link" href="#files">Files</a>
+    </nav>
+
+    <div class="content-grid" id="prereqs" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Prerequisites</div>
+        <ul class="check-list">
+          <li><span>Windows PowerShell 5.1 or PowerShell 7+ in the environment running the script.</span></li>
+          <li><span>A Waterly-provided submission URL, client token, and device identity (<code>id</code> and <code>type</code>).</span></li>
+          <li><span>The <code>WaterlyConnect.psm1</code> module accessible via <code>Import-Module</code> — either by path or added to a <code>$env:PSModulePath</code> location.</span></li>
+          <li><span>Outbound HTTPS access from the Windows host to the WaterlyConnect endpoint.</span></li>
+        </ul>
+      </div>
+      <div class="content-card dark" data-reveal id="quickstart" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Quick Start</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div><strong>Download the module.</strong> Place <code>WaterlyConnect.psm1</code> next to your script or in a directory on <code>$env:PSModulePath</code>.</div></li>
+          <li><span class="flow-num">2</span><div><strong>Import and configure.</strong> Call <code>Import-Module</code>, then use <code>New-WaterlyConnectDeviceInfo</code> and <code>New-WaterlyConnectApiClient</code> to create your client.</div></li>
+          <li><span class="flow-num">3</span><div><strong>Build tags and submit.</strong> Create an array of tag datum objects with <code>New-WaterlyConnectTagDatum</code> and call <code>$client.SubmitData($tags)</code>.</div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="content-grid" id="example" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">Submission Example</div>
+        <pre class="code-block"><code>Import-Module ./WaterlyConnect.psm1
+
+$device = New-WaterlyConnectDeviceInfo `
+  -Id   "pump-station-07" `
+  -Type "Windows Adapter"
+
+$client = New-WaterlyConnectApiClient `
+  -Url         "https://app.waterlyapp.com/connect/submit" `
+  -ClientToken "your-client-token" `
+  -ClientDevice $device
+
+$tagInputs = @(
+  @{ Name = "RawWaterFlow";    Value = 842.3 }
+  @{ Name = "PumpMotorAmps";   Value = 14.1  }
+  @{ Name = "ChlorineDosage";  Value = 2.6   }
+)
+
+$ts = [int][DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+
+$tags = foreach ($t in $tagInputs) {
+  New-WaterlyConnectTagDatum `
+    -Name                $t.Name `
+    -Value               $t.Value `
+    -LastChangeTimestamp $ts
+}
+
+$client.SubmitData($tags)</code></pre>
+      </div>
+      <div class="content-card" data-reveal id="api" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Cmdlet Reference</div>
+        <div style="display:flex;flex-direction:column;gap:1.25rem;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--aqua);margin-bottom:0.4rem;">New-WaterlyConnectApiClient</div>
+            <p style="font-size:0.82rem;color:var(--text-2);margin:0 0 0.5rem;">Creates the API client. Returns an object with a <code>SubmitData($tags)</code> method that throws on non-2xx responses.</p>
+            <table class="schema-table" style="font-size:0.78rem;">
+              <thead><tr><th>Parameter</th><th>Required</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="fname">-Url</td><td style="color:var(--lime)">Yes</td><td class="fdesc">Submission endpoint URL, ending in <code>/connect/submit</code>.</td></tr>
+                <tr><td class="fname">-ClientToken</td><td style="color:var(--lime)">Yes</td><td class="fdesc">API token provided by the Waterly team.</td></tr>
+                <tr><td class="fname">-ClientDevice</td><td style="color:var(--lime)">Yes</td><td class="fdesc">Device object from <code>New-WaterlyConnectDeviceInfo</code>.</td></tr>
+                <tr><td class="fname">-Proxy</td><td style="color:var(--text-3)">No</td><td class="fdesc">Optional proxy URL for <code>Invoke-RestMethod</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--aqua);margin-bottom:0.4rem;">New-WaterlyConnectDeviceInfo</div>
+            <p style="font-size:0.82rem;color:var(--text-2);margin:0;">Builds the device identity object. Requires <code>-Id</code> (string) and <code>-Type</code> (string).</p>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--aqua);margin-bottom:0.4rem;">New-WaterlyConnectTagDatum</div>
+            <p style="font-size:0.82rem;color:var(--text-2);margin:0;">Builds one tag payload. Requires <code>-Name</code>, <code>-Value</code>, and <code>-LastChangeTimestamp</code> (Unix seconds). Numeric values are formatted with invariant culture so decimal separators are always <code>.</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-grid" id="files" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal style="grid-column: 1 / -1;">
+        <div class="content-card-title">Files</div>
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-card-title">Module download</div>
+            <p class="download-card-desc">The complete single-file PowerShell module ready to copy into your project.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/powershell-client/WaterlyConnect.psm1" download="WaterlyConnect.psm1">Download .psm1</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Package README</div>
+            <p class="download-card-desc">Detailed usage, looping examples, cmdlet reference, and configuration notes.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/powershell-client/README.md">Open README</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Source folder</div>
+            <p class="download-card-desc">Full source path in the waterlyconnect-docs repository.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/powershell-client" target="_blank" rel="noopener">View on GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../../assets/site/images/waterly-logo.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">PowerShell Module</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../">All Integrations</a>
+      <a class="footer-link" href="../../">API Reference</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../../assets/site/app.js"></script>
+</body>
+</html>

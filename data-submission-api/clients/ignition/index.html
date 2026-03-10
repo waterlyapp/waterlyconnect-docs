@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ignition Project — WaterlyConnect Integration Guide</title>
+  <meta name="description" content="Importable Ignition project for WaterlyConnect. A gateway script library and scheduled event hook for posting Ignition tag values to Waterly on a schedule." />
+  <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../../">
+      <img src="../../../assets/site/images/waterly-logo.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../">Integrations</a>
+      <a class="nav-link" href="../../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Integrations</a>
+        <span class="bc-sep">/</span>
+        <span>Ignition Project</span>
+      </div>
+      <div class="page-hero-meta">
+        <span class="label label-lime">Gateway</span>
+        <span class="tag tag-default">Ignition 8.1+</span>
+        <span class="tag tag-default">Gateway Scripting</span>
+        <span class="tag tag-default">Python (Jython)</span>
+      </div>
+      <h1 class="page-hero-title">Ignition Project</h1>
+      <p class="page-hero-desc">
+        An importable Ignition project archive that adds a <code>waterly</code> script library to
+        your gateway. Bind the included <code>sendDataToWaterly(tags)</code> helper to any Gateway
+        Scheduled or Timer event to post selected tag paths from any Ignition tag provider directly
+        to WaterlyConnect — no intermediate server required.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../../">Open API Reference</a>
+        <a class="btn btn-secondary" href="../packages/ignition/ignition_to_waterly.zip" download="ignition_to_waterly.zip">Download Project ZIP</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">8.1+</span><span class="stat-label">Ignition version</span></div>
+        <div class="stat-box"><span class="stat-val">.zip</span><span class="stat-label">Importable archive</span></div>
+        <div class="stat-box"><span class="stat-val">0</span><span class="stat-label">External servers needed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell" style="padding:2.5rem 0 5rem;">
+
+    <nav class="page-nav">
+      <a class="page-nav-link" href="#prereqs">Prerequisites</a>
+      <a class="page-nav-link" href="#import">Import Project</a>
+      <a class="page-nav-link" href="#configure">Configure</a>
+      <a class="page-nav-link" href="#schedule">Schedule Events</a>
+      <a class="page-nav-link" href="#files">Files</a>
+    </nav>
+
+    <div class="content-grid" id="prereqs" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Prerequisites</div>
+        <ul class="check-list">
+          <li><span>Ignition 8.1+ Gateway with Designer access.</span></li>
+          <li><span>An Ignition tag provider with the tags you want to submit.</span></li>
+          <li><span>A Waterly-provided device ID, API token, and submission URL. Email <a href="mailto:support@waterly.com" style="color:var(--aqua)">support@waterly.com</a> to request credentials.</span></li>
+          <li><span>Outbound HTTPS access from the Ignition host to the WaterlyConnect endpoint.</span></li>
+        </ul>
+      </div>
+      <div class="content-card dark" data-reveal id="import" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Import the Project</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div><strong>Open the Gateway Webpage.</strong> Navigate to <strong>Config ▸ System ▸ Projects</strong>.</div></li>
+          <li><span class="flow-num">2</span><div><strong>Import.</strong> Click <strong>Import project…</strong>, select <code>ignition_to_waterly.zip</code>, and follow the prompts.</div></li>
+          <li><span class="flow-num">3</span><div><strong>Verify.</strong> Check <strong>Status ▸ Gateway Scripts</strong> to confirm the project loaded. You can also verify via <strong>Designer ▸ Project Browser ▸ Scripting ▸ Script Library ▸ waterly</strong>.</div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="content-grid" id="configure" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">Configure Credentials</div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 1rem;">In Designer, open <strong>Project Browser ▸ Scripting ▸ Script Library ▸ waterly</strong> and replace the placeholder constants at the top of the script:</p>
+        <pre class="code-block"><code># --- Waterly configuration ---
+waterly_api_url     = "https://app.waterlyapp.com/connect/submit"
+waterly_device_id   = "&lt;WATERLY_DEVICE_ID&gt;"
+waterly_device_token = "&lt;WATERLY_DEVICE_TOKEN&gt;"
+# -----------------------------</code></pre>
+        <div class="notice notice-warn" style="margin-top:1rem;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2L14 13H2L8 2Z" stroke="#f0a429" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6v3" stroke="#f0a429" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.6" fill="#f0a429"/></svg>
+          <span>Do not commit your API token to source control. Store it only in the Designer configuration on your gateway.</span>
+        </div>
+      </div>
+      <div class="content-card" data-reveal id="schedule" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Add a Gateway Event</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div>In Designer, open <strong>Project Browser ▸ Scripting ▸ Gateway Events</strong>.</div></li>
+          <li><span class="flow-num">2</span><div>Add a <strong>Scheduled</strong> (specific times) or <strong>Timer</strong> (fixed rate) event. Give it a descriptive name and configure the timing.</div></li>
+          <li><span class="flow-num">3</span><div>Paste one of the example scripts below into the <strong>Script</strong> tab, enable the event, and <strong>Save</strong> the project.</div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;" id="example" data-reveal>
+      <div class="content-card dark">
+        <div class="content-card-title">Scheduled Event Script</div>
+        <p style="font-size:0.82rem;color:var(--text-2);margin:0 0 0.75rem;">Use a Scheduled event to run at specific times (e.g., midnight and noon). Available in Ignition 8.1.6+.</p>
+        <pre class="code-block"><code>def onScheduledEvent():
+    tags = [
+        "[default]SiteA/WetWellLevel",
+        "[default]SiteA/InfluentFlow",
+        "[default]SiteA/PumpRuntime",
+    ]
+    waterly.sendDataToWaterly(tags)</code></pre>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;" data-reveal>
+      <div class="content-card dark">
+        <div class="content-card-title">Timer Event Script</div>
+        <p style="font-size:0.82rem;color:var(--text-2);margin:0 0 0.75rem;">Use a Timer event for a fixed heartbeat (e.g., every 60 000 ms). Set <strong>Delay</strong> and <strong>Delay Type</strong> in the event configuration.</p>
+        <pre class="code-block"><code>tags = [
+    "[default]SiteA/WetWellLevel",
+    "[default]SiteA/InfluentFlow",
+    "[default]SiteA/PumpRuntime",
+]
+waterly.sendDataToWaterly(tags)</code></pre>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:2rem;" id="files" data-reveal>
+      <div class="content-card" style="scroll-margin-top:calc(var(--nav-h) + 1rem); grid-column: 1 / -1;">
+        <div class="content-card-title">Files</div>
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-card-title">Project archive</div>
+            <p class="download-card-desc">Importable <code>.zip</code> containing the gateway script library and project manifest.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/ignition/ignition_to_waterly.zip" download="ignition_to_waterly.zip">Download .zip</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Script library</div>
+            <p class="download-card-desc">The <code>waterly.py</code> script that resolves tag paths, builds the payload, and POSTs to WaterlyConnect.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/ignition/ignition_to_waterly/ignition/script-python/waterly/code.py">waterly/code.py</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Package README</div>
+            <p class="download-card-desc">Step-by-step import, credential setup, event configuration, and troubleshooting notes.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/ignition/README.md">Open README</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Source folder</div>
+            <p class="download-card-desc">Full source path in the waterlyconnect-docs repository.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/ignition" target="_blank" rel="noopener">View on GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../../assets/site/images/waterly-logo.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">Ignition Project</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../">All Integrations</a>
+      <a class="footer-link" href="../../">API Reference</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../../assets/site/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+
+//Set this so we can get a response to the post
+ONSTATUS "goto onEvent"
+//Set this to define how often to post
+TSET 1,300 //300 seconds = 5 mins
+ONTIMER 1,"Goto SendData"
+//Run at startup as well
+GOTO SendData
+END
+
+//get an event (i.e. a POST) and process printing response
+onEvent:
+  eventId%= GETSYS PRG,"EVTINFO"
+  IF (eventId%= actionID%) THEN
+    SETSYS PRG,"ACTIONID",eventId%
+    stat%= GETSYS PRG,"ACTIONSTAT"
+    IF (stat%= 0) THEN
+      GOTO response
+    ELSE
+      PRINT "Error(ERROR= "+Str$(stat%)+ ")"
+    ENDIF
+  ENDIF
+END
+
+//Print a response to a REQUESTHTTPX
+response:
+  a$ = RESPONSEHTTPX "STATUSCODE"
+  PRINT "status:"; a$
+  REM a$ = RESPONSEHTTPX "HEADER"
+  REM PRINT "allheaders:"; a$
+END
+
+//Send data to Waterly API
+SendData:
+  Print "Running SendData"
+  //Set connection and header
+  $token$ = "<REDACTED>"
+  $deviceId$ = "<REDACTED>"
+  $url$   = "https://app.waterlyapp.com/connect/submit"
+  header$ = "Content-Type=application/json&" +  "x-waterly-request-type=WaterlyConnect&" + "x-waterly-connect-token=" + $token$
+
+  //------------------    Build body   -----------------------
+
+  //set time
+  currentTime% = GETSYS PRG, "TIMESEC"
+  currentTimeStr$ = STR$(currentTime%)
+
+  //Build the device object
+  deviceJSON$ = "{" + CHR$(34) + "id" + CHR$(34) + ":" + CHR$(34) + $deviceId$  + CHR$(34) + "," + CHR$(34) + "type" + CHR$(34) + ":" + CHR$(34) + "ewon" + CHR$(34) + "}"
+  NumberOfTags% = GETSYS PRG, "NBTAGS" //get number of tags to loop through
+  firstTag = 1  //set firstTag to true
+  tagList$ = ""   //initialize object
+
+  FOR a% =0 TO NumberOfTags% - 1  // Loop through all the defined tags
+    SETSYS TAG, "LOAD", -a% //get tag
+    tagName$ = GETSYS TAG, "Name"  //set name
+    tagValue$ = GETSYS TAG, "TagValue"  //set value
+
+    IF firstTag = 0 THEN  //if firstTag is true (1), do not add comma for prior object
+      tagList$ = tagList$ + ","
+    ENDIF
+
+    //build tag value object
+    tagList$ = tagList$ + "{" + CHR$(34) + "name" + CHR$(34) + ":" + CHR$(34) + tagName$ + CHR$(34) + ","
+    tagList$ = tagList$ + CHR$(34) + "value" + CHR$(34) + ":" + CHR$(34) + tagValue$ + CHR$(34) + ","
+    tagList$ = tagList$ + CHR$(34) + "last_change_timestamp" + CHR$(34) + ":" + currentTimeStr$
+    tagList$ = tagList$ + "}"
+
+     firstTag = 0  //set first tag to false after first run
+  NEXT a%
+
+LoopEnd:
+  //Build the full JSON payload for body
+  json$ = "{"
+  json$ = json$ + CHR$(34) + "timestamp" + CHR$(34) + ":" + currentTimeStr$ + ","
+  json$ = json$ + CHR$(34) + "device" + CHR$(34) + ":" + deviceJSON$ + ","
+  json$ = json$ + CHR$(34) + "tags" + CHR$(34) + ":[" + tagList$ + "]"
+  json$ = json$ + "}"
+
+  PRINT "Sending HTTP POST to WaterlyConnect..."
+  REQUESTHTTPX $url$, "POST", header$, json$  //POST the data
+  actionID%= GETSYS PRG,"ACTIONID"  //set action id to print response
+End
+
+
+//OPTIONALLY USE THIS FOR CONDITIONAL LOGIC TO SEND
+  // CODE TO CHECK FOR GROUP - USE AND PLACE WITHIN IF STATEMENTS IF DESIRED
+  //      GroupATag$ = GETSYS TAG, "IVGroupA" // Check if the tag is defined in Group A
+  //      IF( GroupATag$ = "1"  ) THEN/
+  //      ELSE
+            // Tag is not defined in "Group A"
+            //PRINT "Not in correct group"
+  //      ENDIF
