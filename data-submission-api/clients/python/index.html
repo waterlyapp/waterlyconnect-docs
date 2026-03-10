@@ -1,120 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WaterlyConnect Python Client</title>
-    <meta
-      name="description"
-      content="Guide to the WaterlyConnect Python client published from waterlyconnect-docs."
-    />
-    <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
-    <link rel="stylesheet" href="../../../assets/site/styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="shell">
-        <a class="brand" href="../../../">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
-        </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="../">All integrations</a>
-          <a href="../../">API reference</a>
-          <a href="https://github.com/waterlyapp/waterlyconnect-docs">GitHub</a>
-        </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Client — WaterlyConnect Integration Guide</title>
+  <meta name="description" content="Zero-dependency Python module for WaterlyConnect. Drop it alongside your script and submit tag data with no external packages." />
+  <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../../">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../">Integrations</a>
+      <a class="nav-link" href="../../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Integrations</a>
+        <span class="bc-sep">/</span>
+        <span>Python Client</span>
       </div>
-    </header>
+      <div class="page-hero-meta">
+        <span class="label label-aqua">SDK</span>
+        <span class="tag tag-default">Python 3.12+</span>
+        <span class="tag tag-default">stdlib only</span>
+      </div>
+      <h1 class="page-hero-title">Python Client</h1>
+      <p class="page-hero-desc">
+        A single-file Python module that implements the full WaterlyConnect payload model using only
+        the standard library. No <code>pip install</code> required — copy the file alongside your script,
+        import it, and you're submitting. Ideal for utility scripts, cron jobs, and lightweight adapter services.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../../">Open API Reference</a>
+        <a class="btn btn-secondary" href="../packages/python-client/waterlyconnect_client.py" download="waterlyconnect_client.py">Download Module</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">3.12+</span><span class="stat-label">Python version</span></div>
+        <div class="stat-box"><span class="stat-val">0</span><span class="stat-label">External dependencies</span></div>
+        <div class="stat-box"><span class="stat-val">.py</span><span class="stat-label">Single file artifact</span></div>
+      </div>
+    </div>
+  </div>
 
-    <main>
-      <section class="page-hero">
-        <div class="shell" data-reveal>
-          <div class="breadcrumbs">
-            <a href="../../../">Home</a>
-            <span>/</span>
-            <a href="../">Integration Directory</a>
-            <span>/</span>
-            <a href="./">Python Client</a>
-          </div>
+  <div class="shell" style="padding:2.5rem 0 5rem;">
 
-          <div class="page-hero-grid">
-            <div>
-              <div class="eyebrow">Single-file SDK</div>
-              <h1 class="page-title">Python client for lightweight WaterlyConnect automation.</h1>
-              <p class="page-copy">
-                The Python client is a good fit when you need a single-file module
-                that mirrors the WaterlyConnect payload model without pulling in
-                third-party dependencies. It is especially convenient for utility
-                scripts, cron jobs, and compact adapter services.
-              </p>
-              <div class="button-row">
-                <a class="button primary" href="../../">Open API reference</a>
-                <a class="button secondary" href="../packages/python-client/waterlyconnect_client.py" download="waterlyconnect_client.py">Download module</a>
-              </div>
-              <div class="stat-stack">
-                <div class="stat-box">
-                  <strong>3.12+</strong>
-                  <span>supported Python</span>
-                </div>
-                <div class="stat-box">
-                  <strong>0</strong>
-                  <span>external dependencies</span>
-                </div>
-                <div class="stat-box">
-                  <strong>.py</strong>
-                  <span>single module artifact</span>
-                </div>
-              </div>
-            </div>
+    <nav class="page-nav">
+      <a class="page-nav-link" href="#prereqs">Prerequisites</a>
+      <a class="page-nav-link" href="#quickstart">Quick Start</a>
+      <a class="page-nav-link" href="#example">Code Example</a>
+      <a class="page-nav-link" href="#files">Files</a>
+    </nav>
 
-            <aside class="page-visual">
-              <img src="../../../assets/site/images/waterly-reports.png" alt="Waterly reporting view" />
-              <div class="page-visual-copy">
-                <div class="eyebrow">Best Fit</div>
-                <strong>Utility scripts and data movers that prefer a drop-in module over a package build.</strong>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
+    <div class="content-grid" id="prereqs" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Prerequisites</div>
+        <ul class="check-list">
+          <li><span>Python 3.12 or newer in the environment running the script.</span></li>
+          <li><span>A Waterly-provided submission URL, client token, and device identity (<code>id</code> and <code>type</code>).</span></li>
+          <li><span>The <code>waterlyconnect_client.py</code> module accessible to your script — either copied locally or added to <code>PYTHONPATH</code>.</span></li>
+          <li><span>Outbound HTTPS access to the WaterlyConnect endpoint.</span></li>
+        </ul>
+      </div>
+      <div class="content-card dark" data-reveal id="quickstart" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Quick Start</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div><strong>Download the module.</strong> Place <code>waterlyconnect_client.py</code> in the same directory as your script or somewhere on <code>PYTHONPATH</code>.</div></li>
+          <li><span class="flow-num">2</span><div><strong>Create the config.</strong> Provide your submission URL, client token, and a <code>ClientDeviceInfo</code> object with <code>id</code> and <code>type</code>.</div></li>
+          <li><span class="flow-num">3</span><div><strong>Build tags and submit.</strong> Create a list of <code>TagDatum</code> objects and call <code>client.submit_data(tags)</code>.</div></li>
+        </ol>
+      </div>
+    </div>
 
-      <section class="page-section">
-        <div class="shell content-grid">
-          <article class="content-card" data-reveal>
-            <div class="kicker">Prerequisites</div>
-            <h2>Deployment expectations</h2>
-            <ul class="checklist">
-              <li><span>Python 3.12 or newer in the environment that submits tag data.</span></li>
-              <li><span>A WaterlyConnect URL, client token, and device object with <code>id</code> and <code>type</code>.</span></li>
-              <li><span>A place to store the module or a <code>PYTHONPATH</code> that points at the imported client directory.</span></li>
-            </ul>
-          </article>
-
-          <article class="content-card dark" data-reveal>
-            <div class="kicker">Quick Start</div>
-            <h2>Minimal usage path</h2>
-            <ol class="flow-list">
-              <li>
-                <span class="flow-index">1</span>
-                <div><strong>Copy or import the module.</strong><br />Use the file directly or add the client directory to <code>PYTHONPATH</code>.</div>
-              </li>
-              <li>
-                <span class="flow-index">2</span>
-                <div><strong>Create the config object.</strong><br />Set URL, token, and device metadata before constructing the client.</div>
-              </li>
-              <li>
-                <span class="flow-index">3</span>
-                <div><strong>Submit a list of tags.</strong><br />Each payload entry needs a unique name, numeric value, and seconds-based timestamp.</div>
-              </li>
-            </ol>
-          </article>
-        </div>
-
-        <div class="shell content-grid">
-          <article class="content-card dark" data-reveal>
-            <div class="kicker">Example</div>
-            <h2>Submission snippet</h2>
-            <pre class="code-block"><code>import time
+    <div class="content-grid" id="example" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">Submission Example</div>
+        <pre class="code-block"><code>import time
 
 from waterlyconnect_client import (
     ClientDeviceInfo,
@@ -124,7 +102,7 @@ from waterlyconnect_client import (
 )
 
 config = WaterlyConnectApiClientConfig(
-    url="https://example.waterly.com/connect/submit",
+    url="https://app.waterlyapp.com/connect/submit",
     client_token="your-client-token",
     client_device=ClientDeviceInfo(
         id="lift-station-04",
@@ -139,55 +117,57 @@ tags = [
         name="WetWellLevel",
         value=12.7,
         last_change_timestamp=int(time.time()),
-    )
+        unit="FT",
+    ),
+    TagDatum(
+        name="PumpStatus",
+        value=1.0,
+        last_change_timestamp=int(time.time()),
+    ),
 ]
 
 client.submit_data(tags)</code></pre>
-          </article>
-
-          <article class="content-card" data-reveal>
-            <div class="kicker">Downloads and Source</div>
-            <h2>Files published in this repo</h2>
-            <div class="download-grid">
-              <div class="download-card">
-                <h3>Module download</h3>
-                <p>Use the imported single-file client directly.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/python-client/waterlyconnect_client.py" download="waterlyconnect_client.py">Download module</a>
-                </div>
-              </div>
-              <div class="download-card">
-                <h3>Package README</h3>
-                <p>Detailed usage and API reference.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/python-client/README.md">Open README</a>
-                </div>
-              </div>
-              <div class="download-card">
-                <h3>Source folder</h3>
-                <p>Imported repository path in the docs repo.</p>
-                <div class="button-row">
-                  <a
-                    class="link-chip"
-                    href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/python-client"
-                  >
-                    View on GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="shell">
-        <div>WaterlyConnect Python Client</div>
-        <div>Copyright <span data-year></span> Waterly, Inc.</div>
       </div>
-    </footer>
+      <div class="content-card" data-reveal id="files" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Files</div>
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-card-title">Module download</div>
+            <p class="download-card-desc">The complete single-file client ready to copy into your project.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/python-client/waterlyconnect_client.py" download="waterlyconnect_client.py">Download .py</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Package README</div>
+            <p class="download-card-desc">Detailed usage, class reference, and configuration notes.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/python-client/README.md">Open README</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Source folder</div>
+            <p class="download-card-desc">Full source path in the waterlyconnect-docs repository.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/python-client" target="_blank" rel="noopener">View on GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <script src="../../../assets/site/app.js"></script>
-  </body>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">Python Client</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../">All Integrations</a>
+      <a class="footer-link" href="../../">API Reference</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../../assets/site/app.js"></script>
+</body>
 </html>

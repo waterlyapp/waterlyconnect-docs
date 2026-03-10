@@ -1,43 +1,35 @@
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.14 }
+// Reveal on scroll
+const revealObs = new IntersectionObserver(
+  (entries) => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  }),
+  { threshold: 0.1 }
 );
+document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 
-document.querySelectorAll("[data-reveal]").forEach((element) => {
-  revealObserver.observe(element);
-});
+// Dynamic year
+document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 
-document.querySelectorAll("[data-year]").forEach((element) => {
-  element.textContent = new Date().getFullYear();
-});
+// Scroll spy for API sidebar
+(function () {
+  const links = document.querySelectorAll('.sidebar-link[href^="#"]');
+  if (!links.length) return;
 
-const driftElements = Array.from(document.querySelectorAll("[data-drift]"));
+  const targets = Array.from(links)
+    .map(l => document.querySelector(l.getAttribute('href')))
+    .filter(Boolean);
 
-if (driftElements.length > 0 && window.matchMedia("(pointer: fine)").matches) {
-  const resetTransforms = () => {
-    driftElements.forEach((element) => {
-      element.style.transform = "";
-    });
+  const activate = (id) => {
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
   };
 
-  window.addEventListener("mousemove", (event) => {
-    const { innerWidth, innerHeight } = window;
-    const x = event.clientX / innerWidth - 0.5;
-    const y = event.clientY / innerHeight - 0.5;
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(e => { if (e.isIntersecting) activate(e.target.id); });
+    },
+    { rootMargin: '-10% 0px -78% 0px' }
+  );
 
-    driftElements.forEach((element) => {
-      const speed = Number(element.dataset.drift || 18);
-      element.style.transform =
-        `translate3d(${x * speed}px, ${y * speed}px, 0)`;
-    });
-  });
-
-  window.addEventListener("mouseleave", resetTransforms);
-}
+  targets.forEach(t => obs.observe(t));
+  if (targets[0]) activate(targets[0].id);
+})();

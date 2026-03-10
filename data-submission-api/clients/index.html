@@ -1,191 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WaterlyConnect Integration Directory</title>
-    <meta
-      name="description"
-      content="Directory of WaterlyConnect client SDKs and industrial integration examples published from the waterlyconnect-docs repository."
-    />
-    <link rel="icon" type="image/x-icon" href="../../assets/site/images/favicon.ico" />
-    <link rel="stylesheet" href="../../assets/site/styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="shell">
-        <a class="brand" href="../../">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <img src="../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
-        </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="../../">Home</a>
-          <a href="../">API Reference</a>
-          <a href="https://github.com/waterlyapp/waterlyconnect-docs">GitHub</a>
-        </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WaterlyConnect Integration Directory</title>
+  <meta name="description" content="Client SDKs and industrial gateway integration guides for WaterlyConnect. Node.js, Python, PowerShell, Ignition, and Ewon Flexy." />
+  <link rel="icon" type="image/x-icon" href="../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../">
+      <img src="../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../../">Home</a>
+      <a class="nav-link" href="../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Data Submission API</a>
+        <span class="bc-sep">/</span>
+        <span>Integration Directory</span>
       </div>
-    </header>
-
-    <main>
-      <section class="page-hero">
-        <div class="shell" data-reveal>
-          <div class="breadcrumbs">
-            <a href="../../">Home</a>
-            <span>/</span>
-            <a href="../">Data Submission API</a>
-            <span>/</span>
-            <a href="./">Integration Directory</a>
-          </div>
-
-          <div class="page-hero-grid">
-            <div>
-              <div class="eyebrow">Published Integration Guides</div>
-              <h1 class="page-title">WaterlyConnect runtime and gateway patterns, organized for delivery.</h1>
-              <p class="page-copy">
-                This directory wraps the imported client/example source with stable
-                GitHub Pages URLs. Use these guides when you need the shortest path
-                from the WaterlyConnect contract to implementation artifacts in a
-                specific runtime.
-              </p>
-              <div class="button-row">
-                <a class="button primary" href="../">Open API reference</a>
-                <a class="button secondary" href="../waterly-connect.yml">Canonical OpenAPI YAML</a>
-              </div>
-              <div class="stat-stack">
-                <div class="stat-box">
-                  <strong>5</strong>
-                  <span>implementation guides</span>
-                </div>
-                <div class="stat-box">
-                  <strong>4</strong>
-                  <span>runtime and gateway styles</span>
-                </div>
-                <div class="stat-box">
-                  <strong>1</strong>
-                  <span>shared payload model</span>
-                </div>
-              </div>
-            </div>
-
-            <aside class="page-visual">
-              <img src="../../assets/site/images/waterly-software.png" alt="Waterly product interface" />
-              <div class="page-visual-copy">
-                <div class="eyebrow">Site Wrapper Layer</div>
-                <strong>Each guide links back to the imported source and the same WaterlyConnect API contract.</strong>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <div class="shell content-grid">
-          <article class="content-card" data-reveal>
-            <div class="kicker">What stays canonical</div>
-            <h2>WaterlyConnect contract and doc flow</h2>
-            <ul class="checklist">
-              <li><span><code>data-submission-api/waterly-connect.yml</code> is the source of truth.</span></li>
-              <li><span>The generated WaterlyConnect HTML reference remains at <code>/data-submission-api/</code>.</span></li>
-              <li><span>Imported source packages remain under <code>/data-submission-api/clients/packages/</code>.</span></li>
-              <li><span>These wrapper pages provide stable, human-oriented entry points for GitHub Pages.</span></li>
-            </ul>
-          </article>
-
-          <article class="content-card dark" data-reveal>
-            <div class="kicker">How to use this page</div>
-            <h2>Pick by deployment environment</h2>
-            <ul class="detail-list">
-              <li><span>Use <strong>Node.js</strong> when you want a typed package in a service or adapter.</span></li>
-              <li><span>Use <strong>Python</strong> when a single-file client fits best.</span></li>
-              <li><span>Use <strong>PowerShell</strong> for Windows-native operational automation.</span></li>
-              <li><span>Use <strong>Ignition</strong> or <strong>Ewon Flexy</strong> for plant-floor or gateway submissions.</span></li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="shell">
-          <div class="integration-grid">
-            <article class="card" data-reveal>
-              <div class="resource-top">
-                <div class="resource-tag">SDK</div>
-                <span class="link-chip">Node.js</span>
-              </div>
-              <h3>Node.js Client</h3>
-              <p>TypeScript-first package with generated schema types and a small axios-based submission client.</p>
-              <div class="button-row">
-                <a class="button ghost" href="nodejs/">Open guide</a>
-                <a
-                  class="button ghost"
-                  href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/nodejs-client"
-                >
-                  Source folder
-                </a>
-              </div>
-            </article>
-
-            <article class="card" data-reveal>
-              <div class="resource-top">
-                <div class="resource-tag">SDK</div>
-                <span class="link-chip">Python</span>
-              </div>
-              <h3>Python Client</h3>
-              <p>Drop-in module with no external dependencies and an API that mirrors the contract closely.</p>
-              <div class="button-row">
-                <a class="button ghost" href="python/">Open guide</a>
-                <a class="button ghost" href="packages/python-client/waterlyconnect_client.py">Module file</a>
-              </div>
-            </article>
-
-            <article class="card" data-reveal>
-              <div class="resource-top">
-                <div class="resource-tag">SDK</div>
-                <span class="link-chip">PowerShell</span>
-              </div>
-              <h3>PowerShell Module</h3>
-              <p>Module-based workflow for operators and administrators who already automate in PowerShell.</p>
-              <div class="button-row">
-                <a class="button ghost" href="powershell/">Open guide</a>
-                <a class="button ghost" href="packages/powershell-client/WaterlyConnect.psm1">Module file</a>
-              </div>
-            </article>
-
-            <article class="card" data-reveal>
-              <div class="resource-top">
-                <div class="resource-tag">Gateway</div>
-                <span class="link-chip">Ignition</span>
-              </div>
-              <h3>Ignition Project</h3>
-              <p>Importable project archive and source mirror for scheduled submissions from Ignition Gateway.</p>
-              <div class="button-row">
-                <a class="button ghost" href="ignition/">Open guide</a>
-                <a class="button ghost" href="packages/ignition/ignition_to_waterly.zip">Download ZIP</a>
-              </div>
-            </article>
-
-            <article class="card" data-reveal>
-              <div class="resource-top">
-                <div class="resource-tag">Gateway</div>
-                <span class="link-chip">Ewon Flexy</span>
-              </div>
-              <h3>Ewon Flexy Script</h3>
-              <p>Timed BASIC script for on-device submission to WaterlyConnect using the Flexy web interface.</p>
-              <div class="button-row">
-                <a class="button ghost" href="ewon-flexy/">Open guide</a>
-                <a class="button ghost" href="packages/ewon-flexy/flexy-basic.txt">Download script</a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="shell">
-        <div>WaterlyConnect Integration Directory</div>
-        <div>Copyright <span data-year></span> Waterly, Inc.</div>
+      <div class="page-hero-meta">
+        <span class="label label-aqua">Integration Directory</span>
       </div>
-    </footer>
+      <h1 class="page-hero-title">WaterlyConnect SDKs and gateway integration guides.</h1>
+      <p class="page-hero-desc">
+        Every guide here connects to the same WaterlyConnect payload schema and the same
+        single endpoint. Pick the runtime that matches your deployment environment — whether
+        that's a server-side service, a Windows automation script, or an industrial gateway on the plant floor.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../">API Reference</a>
+        <a class="btn btn-secondary" href="../waterly-connect.yml">OpenAPI YAML</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">5</span><span class="stat-label">Integration Guides</span></div>
+        <div class="stat-box"><span class="stat-val">3</span><span class="stat-label">SDK Packages</span></div>
+        <div class="stat-box"><span class="stat-val">2</span><span class="stat-label">Gateway Projects</span></div>
+      </div>
+    </div>
+  </div>
 
-    <script src="../../assets/site/app.js"></script>
-  </body>
+  <div class="shell" style="padding:2.5rem 0 5rem;">
+
+    <div style="margin-bottom:2.5rem;" data-reveal>
+      <span class="label label-aqua" style="margin-bottom:0.75rem;">SDK Packages</span>
+      <h2 class="section-title">Client libraries for server-side runtimes</h2>
+      <p class="section-sub">Typed packages and single-file modules for services, scripts, and automation jobs that run outside the plant floor.</p>
+    </div>
+
+    <div class="int-grid" style="margin-bottom:3rem;">
+
+      <a class="int-card" href="nodejs/" data-reveal>
+        <div class="int-card-icon" style="background:rgba(104,169,74,0.12);border:1px solid rgba(104,169,74,0.22);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <rect x="2" y="3" width="16" height="14" rx="2" stroke="#68a94a" stroke-width="1.5"/>
+            <path d="M6 8l3 2.5L6 13" stroke="#68a94a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 13h2" stroke="#68a94a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="int-card-type">SDK — TypeScript / JavaScript</div>
+        <div class="int-card-title">Node.js Client</div>
+        <p class="int-card-desc">TypeScript-first package with generated schema types and an axios-based HTTP client. Best for adapters, ETL jobs, and integration services.</p>
+      </a>
+
+      <a class="int-card" href="python/" data-reveal>
+        <div class="int-card-icon" style="background:rgba(55,118,171,0.12);border:1px solid rgba(55,118,171,0.22);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M8 2h4a2 2 0 012 2v3H6V4a2 2 0 012-2z" stroke="#3776ab" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 18H8a2 2 0 01-2-2v-3h8v3a2 2 0 01-2 2z" stroke="#ffcb3a" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M6 7H4a1 1 0 00-1 1v3a1 1 0 001 1h2" stroke="#3776ab" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14 13h2a1 1 0 001-1V9a1 1 0 00-1-1h-2" stroke="#ffcb3a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="int-card-type">SDK — Python 3.12+</div>
+        <div class="int-card-title">Python Client</div>
+        <p class="int-card-desc">Single-file module with no external dependencies. Drop it alongside your script and import it. Best for utility scripts and cron jobs.</p>
+      </a>
+
+      <a class="int-card" href="powershell/" data-reveal>
+        <div class="int-card-icon" style="background:rgba(1,54,130,0.15);border:1px solid rgba(1,54,130,0.25);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <rect x="2" y="3" width="16" height="14" rx="2" stroke="#5391fe" stroke-width="1.5"/>
+            <path d="M5 8l4 2.5L5 13" stroke="#5391fe" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11 13h4" stroke="#5391fe" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="int-card-type">SDK — PowerShell 5.1 / 7+</div>
+        <div class="int-card-title">PowerShell Module</div>
+        <p class="int-card-desc">Import a <code>.psm1</code> module and call cmdlet-style helpers to build and post WaterlyConnect payloads from Windows environments.</p>
+      </a>
+
+    </div>
+
+    <div style="margin-bottom:2.5rem;" data-reveal>
+      <span class="label label-lime" style="margin-bottom:0.75rem;">Gateway Projects</span>
+      <h2 class="section-title">Plant-floor and edge gateway integrations</h2>
+      <p class="section-sub">Importable project archives and device-side scripts for industrial gateways that submit directly without an intermediate server.</p>
+    </div>
+
+    <div class="int-grid">
+
+      <a class="int-card" href="ignition/" data-reveal>
+        <div class="int-card-icon" style="background:rgba(202,67,35,0.12);border:1px solid rgba(202,67,35,0.22);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="2.5" stroke="#ca4323" stroke-width="1.5"/>
+            <path d="M10 2v2M10 16v2M2 10h2M16 10h2" stroke="#ca4323" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="#ca4323" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="int-card-type">Gateway — Ignition 8.1+</div>
+        <div class="int-card-title">Ignition Project</div>
+        <p class="int-card-desc">Importable ZIP archive with a gateway script library. Bind a scheduled event to post selected tag paths from any Ignition tag provider to Waterly.</p>
+      </a>
+
+      <a class="int-card" href="ewon-flexy/" data-reveal>
+        <div class="int-card-icon" style="background:rgba(0,140,186,0.12);border:1px solid rgba(0,140,186,0.22);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M2 7c4.4-4.4 11.6-4.4 16 0" stroke="#008cba" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M5 10c2.8-2.8 7.2-2.8 10 0" stroke="#008cba" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M8 13c1.1-1.1 3-1.1 4 0" stroke="#008cba" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="10" cy="16" r="1" fill="#008cba"/>
+          </svg>
+        </div>
+        <div class="int-card-type">Gateway — Ewon Flexy 205</div>
+        <div class="int-card-title">Ewon Flexy Script</div>
+        <p class="int-card-desc">A timed BASIC script that runs directly on the Flexy device. No external server needed — the gateway reads its own tags and POSTs to WaterlyConnect.</p>
+      </a>
+
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">Integration Directory</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../../">Developer Hub</a>
+      <a class="footer-link" href="../">API Reference</a>
+      <a class="footer-link" href="https://github.com/waterlyapp/waterlyconnect-docs">GitHub</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../assets/site/app.js"></script>
+</body>
 </html>

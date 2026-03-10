@@ -1,133 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WaterlyConnect Node.js Client</title>
-    <meta
-      name="description"
-      content="Guide to the WaterlyConnect Node.js client published from waterlyconnect-docs."
-    />
-    <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
-    <link rel="stylesheet" href="../../../assets/site/styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="shell">
-        <a class="brand" href="../../../">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
-        </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="../">All integrations</a>
-          <a href="../../">API reference</a>
-          <a href="https://github.com/waterlyapp/waterlyconnect-docs">GitHub</a>
-        </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js Client — WaterlyConnect Integration Guide</title>
+  <meta name="description" content="TypeScript/JavaScript SDK for WaterlyConnect. Typed payload helpers and an axios-based client for server-side data submission." />
+  <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+  <link rel="stylesheet" href="../../../assets/site/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="nav-brand" href="../../../">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">WaterlyConnect Developer Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="../">Integrations</a>
+      <a class="nav-link" href="../../">API Reference</a>
+      <a class="nav-link" href="https://github.com/waterlyapp/waterlyconnect-docs" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-link nav-link-primary" href="mailto:support@waterly.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-hero">
+    <div class="shell">
+      <div class="breadcrumbs">
+        <a href="../../../">Home</a>
+        <span class="bc-sep">/</span>
+        <a href="../">Integrations</a>
+        <span class="bc-sep">/</span>
+        <span>Node.js Client</span>
       </div>
-    </header>
+      <div class="page-hero-meta">
+        <span class="label label-aqua">SDK</span>
+        <span class="tag tag-default">TypeScript / JavaScript</span>
+        <span class="tag tag-default">axios</span>
+      </div>
+      <h1 class="page-hero-title">Node.js Client</h1>
+      <p class="page-hero-desc">
+        A TypeScript-first package that wraps the WaterlyConnect REST API with generated schema types
+        and a small axios-based HTTP client. Best for server-side services, adapter layers, ETL jobs,
+        and any Node.js runtime that needs a typed path from tag data to a successful submission.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../../">Open API Reference</a>
+        <a class="btn btn-secondary" href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/nodejs-client" target="_blank" rel="noopener">Source on GitHub</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-val">TS</span><span class="stat-label">Generated schema types</span></div>
+        <div class="stat-box"><span class="stat-val">axios</span><span class="stat-label">HTTP transport</span></div>
+        <div class="stat-box"><span class="stat-val">CJS</span><span class="stat-label">CommonJS build included</span></div>
+      </div>
+    </div>
+  </div>
 
-    <main>
-      <section class="page-hero">
-        <div class="shell" data-reveal>
-          <div class="breadcrumbs">
-            <a href="../../../">Home</a>
-            <span>/</span>
-            <a href="../">Integration Directory</a>
-            <span>/</span>
-            <a href="./">Node.js Client</a>
-          </div>
+  <div class="shell" style="padding:2.5rem 0 5rem;">
 
-          <div class="page-hero-grid">
-            <div>
-              <div class="eyebrow">SDK Guide</div>
-              <h1 class="page-title">Node.js client for typed WaterlyConnect submissions.</h1>
-              <p class="page-copy">
-                This package is best suited for services, connectors, and ETL jobs
-                that want a small axios-based client plus generated TypeScript
-                schema types sourced from the canonical WaterlyConnect OpenAPI
-                document in this repository.
-              </p>
-              <div class="button-row">
-                <a class="button primary" href="../../">Open API reference</a>
-                <a
-                  class="button secondary"
-                  href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/nodejs-client"
-                >
-                  Source folder
-                </a>
-              </div>
-              <div class="stat-stack">
-                <div class="stat-box">
-                  <strong>TS/JS</strong>
-                  <span>typed client package</span>
-                </div>
-                <div class="stat-box">
-                  <strong>axios</strong>
-                  <span>HTTP transport</span>
-                </div>
-                <div class="stat-box">
-                  <strong>YAML</strong>
-                  <span>generated from canonical spec</span>
-                </div>
-              </div>
-            </div>
+    <nav class="page-nav">
+      <a class="page-nav-link" href="#prereqs">Prerequisites</a>
+      <a class="page-nav-link" href="#quickstart">Quick Start</a>
+      <a class="page-nav-link" href="#example">Code Example</a>
+      <a class="page-nav-link" href="#files">Files</a>
+    </nav>
 
-            <aside class="page-visual">
-              <img src="../../../assets/site/images/waterly-software.png" alt="Waterly software interface" />
-              <div class="page-visual-copy">
-                <div class="eyebrow">Best Fit</div>
-                <strong>Server-side bridges, adapters, and integration jobs that want typed payload helpers.</strong>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
+    <div class="content-grid" id="prereqs" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card" data-reveal>
+        <div class="content-card-title">Prerequisites</div>
+        <ul class="check-list">
+          <li><span>Node.js available in the environment that will submit payloads.</span></li>
+          <li><span>A Waterly-provided submission URL ending in <code>/connect/submit</code>.</span></li>
+          <li><span>A client token and an assigned device identity (<code>id</code> and <code>type</code>) from the Waterly team.</span></li>
+          <li><span>Outbound HTTPS access from your runtime to the WaterlyConnect endpoint.</span></li>
+        </ul>
+      </div>
+      <div class="content-card dark" data-reveal id="quickstart" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Quick Start</div>
+        <ol class="flow-list">
+          <li><span class="flow-num">1</span><div><strong>Install the package.</strong> Add <code>@waterclick/waterlyconnect-nodejs-client</code> to your project dependencies.</div></li>
+          <li><span class="flow-num">2</span><div><strong>Create the config.</strong> Supply the submission URL, your client token, and the device object with <code>id</code> and <code>type</code>.</div></li>
+          <li><span class="flow-num">3</span><div><strong>Instantiate and submit.</strong> Create a <code>WaterlyConnectApiClient</code> and call <code>submitData</code> with an array of <code>TagDatum</code> objects.</div></li>
+        </ol>
+      </div>
+    </div>
 
-      <section class="page-section">
-        <div class="shell content-grid">
-          <article class="content-card" data-reveal>
-            <div class="kicker">Prerequisites</div>
-            <h2>What you need before wiring it in</h2>
-            <ul class="checklist">
-              <li><span>Node.js available in the environment that will submit payloads.</span></li>
-              <li><span>A Waterly-provided submission URL ending in <code>/connect/submit</code>.</span></li>
-              <li><span>A client token and assigned device identity with <code>id</code> and <code>type</code>.</span></li>
-              <li><span>Outbound network access from the runtime to the WaterlyConnect endpoint.</span></li>
-            </ul>
-          </article>
-
-          <article class="content-card dark" data-reveal>
-            <div class="kicker">Quick Start</div>
-            <h2>Minimal setup path</h2>
-            <ol class="flow-list">
-              <li>
-                <span class="flow-index">1</span>
-                <div><strong>Install the package.</strong><br />Add <code>@waterclick/waterlyconnect-nodejs-client</code> to your project.</div>
-              </li>
-              <li>
-                <span class="flow-index">2</span>
-                <div><strong>Create the client config.</strong><br />Supply the Waterly URL, token, and device object.</div>
-              </li>
-              <li>
-                <span class="flow-index">3</span>
-                <div><strong>Submit tag data.</strong><br />Send name, numeric value as string, and a seconds-based timestamp.</div>
-              </li>
-            </ol>
-          </article>
-        </div>
-
-        <div class="shell content-grid">
-          <article class="content-card dark" data-reveal>
-            <div class="kicker">Example</div>
-            <h2>Submission snippet</h2>
-            <pre class="code-block"><code>import {
+    <div class="content-grid" id="example" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+      <div class="content-card dark" data-reveal>
+        <div class="content-card-title">Submission Example</div>
+        <pre class="code-block"><code>import {
   TagDatum,
   WaterlyConnectApiClient,
   WaterlyConnectApiClientConfig
 } from "@waterclick/waterlyconnect-nodejs-client";
 
 const config: WaterlyConnectApiClientConfig = {
-  url: "https://example.waterly.com/connect/submit",
+  url: "https://app.waterlyapp.com/connect/submit",
   clientToken: "your-client-token",
   clientDevice: {
     id: "plant-west-01",
@@ -142,57 +114,62 @@ const tags: TagDatum[] = [
     name: "FinishedWaterFlow",
     value: "123.2",
     last_change_timestamp: Math.floor(Date.now() / 1000)
+  },
+  {
+    name: "ClearwellLevel",
+    value: "14.7",
+    last_change_timestamp: Math.floor(Date.now() / 1000),
+    unit: "FT"
   }
 ];
 
 await client.submitData(tags);</code></pre>
-          </article>
-
-          <article class="content-card" data-reveal>
-            <div class="kicker">Downloads and Source</div>
-            <h2>Files published in this repo</h2>
-            <div class="download-grid">
-              <div class="download-card">
-                <h3>Package README</h3>
-                <p>Detailed package usage and type reference.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/nodejs-client/README.md">Open README</a>
-                </div>
-              </div>
-              <div class="download-card">
-                <h3>Client source</h3>
-                <p>Main TypeScript implementation.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/nodejs-client/src/client.ts">View client.ts</a>
-                </div>
-              </div>
-              <div class="download-card">
-                <h3>Generated schema</h3>
-                <p>Derived from the canonical WaterlyConnect YAML contract.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/nodejs-client/src/generated/schema.ts">View schema.ts</a>
-                </div>
-              </div>
-              <div class="download-card">
-                <h3>Package manifest</h3>
-                <p>Includes the local schema generation path.</p>
-                <div class="button-row">
-                  <a class="link-chip" href="../packages/nodejs-client/package.json">Open package.json</a>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="shell">
-        <div>WaterlyConnect Node.js Client</div>
-        <div>Copyright <span data-year></span> Waterly, Inc.</div>
       </div>
-    </footer>
+      <div class="content-card" data-reveal id="files" style="scroll-margin-top:calc(var(--nav-h) + 1rem);">
+        <div class="content-card-title">Files</div>
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-card-title">Package README</div>
+            <p class="download-card-desc">Full API reference, type documentation, and usage notes.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/nodejs-client/README.md">Open README</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Client source</div>
+            <p class="download-card-desc">Main TypeScript implementation of the HTTP client.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/nodejs-client/src/client.ts">client.ts</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Generated schema</div>
+            <p class="download-card-desc">TypeScript types derived from the canonical OpenAPI YAML.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/nodejs-client/src/generated/schema.ts">schema.ts</a>
+          </div>
+          <div class="download-card">
+            <div class="download-card-title">Package manifest</div>
+            <p class="download-card-desc">Includes the local schema generation script path.</p>
+            <a class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" href="../packages/nodejs-client/package.json">package.json</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <script src="../../../assets/site/app.js"></script>
-  </body>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-left">
+      <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+      <div class="footer-divider"></div>
+      <span class="footer-copy">Node.js Client</span>
+    </div>
+    <nav class="footer-links">
+      <a class="footer-link" href="../">All Integrations</a>
+      <a class="footer-link" href="../../">API Reference</a>
+    </nav>
+    <span class="footer-copy">&copy; <span data-year></span> Waterly, Inc.</span>
+  </div>
+</footer>
+
+<script src="../../../assets/site/app.js"></script>
+</body>
 </html>
