@@ -179,7 +179,7 @@ class WaterlyConnectApiClient {
         if ([string]::IsNullOrWhiteSpace($responseBody)) {
           "HTTP $statusCode $statusDescription"
         } else {
-          "HTTP $statusCode $statusDescription: $responseBody"
+          "HTTP $statusCode ${statusDescription}: $responseBody"
         }
       } else {
         $_.Exception.Message

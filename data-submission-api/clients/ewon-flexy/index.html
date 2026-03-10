@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WaterlyConnect Ewon Flexy Integration</title>
+    <meta
+      name="description"
+      content="Guide to the WaterlyConnect Ewon Flexy integration script published from waterlyconnect-docs."
+    />
+    <link rel="icon" type="image/x-icon" href="../../../assets/site/images/favicon.ico" />
+    <link rel="stylesheet" href="../../../assets/site/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell">
+        <a class="brand" href="../../../">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <img src="../../../assets/site/images/waterly-wordmark.png" alt="Waterly" />
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="../">All integrations</a>
+          <a href="../../">API reference</a>
+          <a href="mailto:support@waterly.com">Support</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="shell" data-reveal>
+          <div class="breadcrumbs">
+            <a href="../../../">Home</a>
+            <span>/</span>
+            <a href="../">Integration Directory</a>
+            <span>/</span>
+            <a href="./">Ewon Flexy</a>
+          </div>
+
+          <div class="page-hero-grid">
+            <div>
+              <div class="eyebrow">Gateway Script</div>
+              <h1 class="page-title">Ewon Flexy BASIC script for timed WaterlyConnect posts.</h1>
+              <p class="page-copy">
+                The Ewon Flexy integration is a device-side BASIC script intended
+                for Flexy 205 deployments that need to post tag values to
+                WaterlyConnect on a timer. It is a direct path from edge gateway
+                tag collection to Waterly ingestion when the script can own the
+                scheduling logic locally.
+              </p>
+              <div class="button-row">
+                <a class="button primary" href="../packages/ewon-flexy/flexy-basic.txt" download="flexy-basic.txt">Download BASIC script</a>
+                <a
+                  class="button secondary"
+                  href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/ewon-flexy"
+                >
+                  Source folder
+                </a>
+              </div>
+              <div class="stat-stack">
+                <div class="stat-box">
+                  <strong>205</strong>
+                  <span>target Flexy device family</span>
+                </div>
+                <div class="stat-box">
+                  <strong>5 min</strong>
+                  <span>default timer cadence</span>
+                </div>
+                <div class="stat-box">
+                  <strong>BASIC</strong>
+                  <span>copy/paste deployment artifact</span>
+                </div>
+              </div>
+            </div>
+
+            <aside class="page-visual">
+              <img src="../../../assets/site/images/waterly-hero.jpg" alt="Water infrastructure imagery from Waterly marketing site" />
+              <div class="page-visual-copy">
+                <div class="eyebrow">Best Fit</div>
+                <strong>Edge gateways that can schedule and submit directly from the Flexy web interface.</strong>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="shell content-grid">
+          <article class="content-card" data-reveal>
+            <div class="kicker">Prerequisites</div>
+            <h2>Before loading the script</h2>
+            <ul class="checklist">
+              <li><span>An Ewon Flexy 205 with internet connectivity.</span></li>
+              <li><span>Access to the Flexy web interface and BASIC IDE.</span></li>
+              <li><span>Waterly token, device ID, and submission URL values.</span></li>
+              <li><span>A plan for protecting credentials on the device.</span></li>
+            </ul>
+          </article>
+
+          <article class="content-card dark" data-reveal>
+            <div class="kicker">Quick Start</div>
+            <h2>Implementation flow</h2>
+            <ol class="flow-list">
+              <li>
+                <span class="flow-index">1</span>
+                <div><strong>Paste the script into BASIC IDE.</strong><br />Load the downloaded file into the Flexy web interface and save it.</div>
+              </li>
+              <li>
+                <span class="flow-index">2</span>
+                <div><strong>Replace the placeholders.</strong><br />Set the token, device ID, and Waterly submission URL at the top of the script.</div>
+              </li>
+              <li>
+                <span class="flow-index">3</span>
+                <div><strong>Run and monitor.</strong><br />Enable autorun if needed and verify request status in the Flexy diagnostics.</div>
+              </li>
+            </ol>
+          </article>
+        </div>
+
+        <div class="shell content-grid">
+          <article class="content-card dark" data-reveal>
+            <div class="kicker">Configuration Snippet</div>
+            <h2>Credential placeholders</h2>
+            <pre class="code-block"><code>$token$ = "&lt;REDACTED&gt;"
+$deviceId$ = "&lt;REDACTED&gt;"
+$url$ = "https://app.waterlyapp.com/connect/submit"</code></pre>
+          </article>
+
+          <article class="content-card" data-reveal>
+            <div class="kicker">Downloads and Source</div>
+            <h2>Files published in this repo</h2>
+            <div class="download-grid">
+              <div class="download-card">
+                <h3>BASIC script</h3>
+                <p>Paste this directly into the Flexy BASIC IDE.</p>
+                <div class="button-row">
+                  <a class="link-chip" href="../packages/ewon-flexy/flexy-basic.txt" download="flexy-basic.txt">Download script</a>
+                </div>
+              </div>
+              <div class="download-card">
+                <h3>Implementation README</h3>
+                <p>Detailed Flexy-specific setup, timer, and security notes.</p>
+                <div class="button-row">
+                  <a class="link-chip" href="../packages/ewon-flexy/README.md">Open README</a>
+                </div>
+              </div>
+              <div class="download-card">
+                <h3>Source folder</h3>
+                <p>Imported repository path in the docs repo.</p>
+                <div class="button-row">
+                  <a
+                    class="link-chip"
+                    href="https://github.com/waterlyapp/waterlyconnect-docs/tree/main/data-submission-api/clients/packages/ewon-flexy"
+                  >
+                    View on GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <div>WaterlyConnect Ewon Flexy Integration</div>
+        <div>Copyright <span data-year></span> Waterly, Inc.</div>
+      </div>
+    </footer>
+
+    <script src="../../../assets/site/app.js"></script>
+  </body>
+</html>

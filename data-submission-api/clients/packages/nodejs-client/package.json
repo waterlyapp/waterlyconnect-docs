@@ -18,7 +18,7 @@
     "clean:lib": "rimraf lib",
     "clean:generated": "rimraf src/generated",
     "clean": "npm-run-all -p clean:*",
-    "build:generate-schema": "openapi-typescript ../../waterly-connect.json --output ./src/generated/schema.ts",
+    "build:generate-schema": "openapi-typescript ../../../waterly-connect.yml --output ./src/generated/schema.ts",
     "build:declarations": "tsc -p tsconfig.build.json",
     "build:bundle": "rollup -c --bundleConfigAsCjs",
     "build": "npm-run-all clean build:generate-schema -p build:declarations build:bundle"

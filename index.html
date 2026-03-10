@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WaterlyConnect Developer Hub</title>
+    <meta
+      name="description"
+      content="Published documentation, client SDKs, and industrial integration guides for WaterlyConnect."
+    />
+    <link rel="icon" type="image/x-icon" href="assets/site/images/favicon.ico" />
+    <link rel="stylesheet" href="assets/site/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell">
+        <a class="brand" href="./">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <img src="assets/site/images/waterly-wordmark.png" alt="Waterly" />
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#apis">APIs</a>
+          <a href="data-submission-api/clients/">Integrations</a>
+          <a href="#start">Quick Start</a>
+          <a href="https://github.com/waterlyapp/waterlyconnect-docs">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy" data-reveal>
+            <div class="eyebrow">WaterlyConnect Resource Index</div>
+            <h1 class="hero-title">One published home for WaterlyConnect docs, SDKs, and field integrations.</h1>
+            <p>
+              The WaterlyConnect contract, generated API references, and importable
+              client examples now live together in a GitHub Pages-ready hub. Use
+              the Data Submission API reference, pick the client or gateway flow
+              that matches your runtime, and move from credentials to first
+              payload without switching repositories.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="data-submission-api/clients/">Browse Integration Guides</a>
+              <a class="button secondary" href="data-submission-api/">Open API Reference</a>
+            </div>
+            <div class="hero-metrics">
+              <div class="metric-card">
+                <strong>2</strong>
+                <span>published API surfaces</span>
+              </div>
+              <div class="metric-card">
+                <strong>5</strong>
+                <span>curated integration guides</span>
+              </div>
+              <div class="metric-card">
+                <strong>1</strong>
+                <span>canonical WaterlyConnect contract</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div
+              class="hero-panel"
+              style="background-image: linear-gradient(135deg, rgba(0, 169, 211, 0.08), rgba(19, 53, 70, 0.22)), url('assets/site/images/waterly-hero.jpg');"
+            ></div>
+            <img
+              class="hero-wordmark"
+              src="assets/site/images/waterly-wordmark.png"
+              alt=""
+              aria-hidden="true"
+              data-drift="10"
+            />
+            <article class="float-card top" data-reveal data-drift="20">
+              <img src="assets/site/images/waterly-software.png" alt="Waterly software dashboard" />
+              <div class="float-card-content">
+                <div class="kicker">Unified Contract</div>
+                <h3>Canonical YAML, generated HTML, and wrapper docs stay aligned.</h3>
+                <p>
+                  WaterlyConnect now treats <code>data-submission-api/waterly-connect.yml</code>
+                  as the contract source for docs and example code.
+                </p>
+              </div>
+            </article>
+            <article class="float-card bottom" data-reveal data-drift="14">
+              <img src="assets/site/images/waterly-reports.png" alt="Waterly analytics reports" />
+              <div class="float-card-content">
+                <div class="kicker">Operational Paths</div>
+                <h3>Pick a runtime that matches your plant floor or backend environment.</h3>
+                <p>
+                  Use Node.js, Python, PowerShell, Ignition, or Ewon Flexy with
+                  the same WaterlyConnect payload model.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="apis">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <div>
+              <div class="eyebrow">Published APIs</div>
+              <h2 class="section-title">Core references stay fast to find and easy to publish.</h2>
+            </div>
+            <p class="section-copy">
+              The landing page points directly at the generated HTML references,
+              while GitHub repository readers still get the source markdown and
+              OpenAPI files in the same tree.
+            </p>
+          </div>
+
+          <div class="api-grid">
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">WaterlyConnect</div>
+                <span class="link-chip">REST</span>
+              </div>
+              <h3>Data Submission API</h3>
+              <p>
+                Post device and tag payloads from external systems into Waterly.
+                Use the generated HTML reference for endpoint details, then move
+                into one of the client or gateway guides for implementation.
+              </p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/">API Reference</a>
+                <a class="button ghost" href="data-submission-api/clients/">Client Directory</a>
+                <a class="button ghost" href="data-submission-api/waterly-connect.yml">OpenAPI YAML</a>
+              </div>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">Identity</div>
+                <span class="link-chip">Contract</span>
+              </div>
+              <h3>External User Directory API</h3>
+              <p>
+                Define and validate the early-stage contract Waterly uses to read
+                and update external user directories for identity and permission
+                synchronization scenarios.
+              </p>
+              <div class="button-row">
+                <a class="button ghost" href="external-user-directory-api/">API Reference</a>
+                <a class="button ghost" href="external-user-directory-api/ExternalUserDirectoryAPI.md">Overview</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contract-band">
+        <div class="shell contract-inner" data-reveal>
+          <div class="contract-copy">
+            <div class="eyebrow">Single Source of Truth</div>
+            <h2 class="section-title">The WaterlyConnect submission contract now anchors every implementation path.</h2>
+            <p>
+              The Node.js package now generates schema types from the canonical
+              WaterlyConnect YAML in this repository, and every published guide
+              routes back to the same API reference and support flow.
+            </p>
+            <div class="contract-points">
+              <span>Canonical YAML</span>
+              <span>Generated HTML reference</span>
+              <span>Imported client history</span>
+              <span>GitHub Pages wrappers</span>
+            </div>
+            <div class="contract-actions">
+              <a class="button primary" href="data-submission-api/waterly-connect.yml">View OpenAPI YAML</a>
+              <a class="button secondary" href="data-submission-api/WaterlyConnectDataSubmissionAPI.md">Read Overview</a>
+            </div>
+          </div>
+
+          <aside class="contract-panel">
+            <ul>
+              <li>Generated API docs stay published at <code>/data-submission-api/</code>.</li>
+              <li>Imported clients live under <code>/data-submission-api/clients/packages/</code>.</li>
+              <li>Curated wrapper pages expose stable URLs under <code>/data-submission-api/clients/</code>.</li>
+              <li>Repo and site navigation now point to the same integration directory.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="clients">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <div>
+              <div class="eyebrow">Integration Directory</div>
+              <h2 class="section-title">Choose the runtime or industrial gateway that matches your deployment.</h2>
+            </div>
+            <p class="section-copy">
+              Each guide summarizes prerequisites, links to the imported source,
+              and exposes the artifact or script you actually need at deployment
+              time.
+            </p>
+          </div>
+
+          <div class="integration-grid">
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">SDK</div>
+                <span class="link-chip">Node.js</span>
+              </div>
+              <h3>Node.js Client</h3>
+              <p>Typed TypeScript and JavaScript client for server-side jobs, adapters, and ETL flows.</p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/clients/nodejs/">Guide</a>
+                <a class="button ghost" href="data-submission-api/clients/packages/nodejs-client/README.md">README</a>
+              </div>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">SDK</div>
+                <span class="link-chip">Python</span>
+              </div>
+              <h3>Python Client</h3>
+              <p>Single-file standard-library client for scripts, small services, and operational automation.</p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/clients/python/">Guide</a>
+                <a class="button ghost" href="data-submission-api/clients/packages/python-client/waterlyconnect_client.py">Module</a>
+              </div>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">SDK</div>
+                <span class="link-chip">PowerShell</span>
+              </div>
+              <h3>PowerShell Module</h3>
+              <p>Native PowerShell workflow for operators and Windows automation environments.</p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/clients/powershell/">Guide</a>
+                <a class="button ghost" href="data-submission-api/clients/packages/powershell-client/WaterlyConnect.psm1">Module</a>
+              </div>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">Gateway</div>
+                <span class="link-chip">Ignition</span>
+              </div>
+              <h3>Ignition Project</h3>
+              <p>Importable project archive plus viewable source for scheduled gateway submissions.</p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/clients/ignition/">Guide</a>
+                <a class="button ghost" href="data-submission-api/clients/packages/ignition/ignition_to_waterly.zip">Download ZIP</a>
+              </div>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="resource-top">
+                <div class="resource-tag">Gateway</div>
+                <span class="link-chip">Ewon Flexy</span>
+              </div>
+              <h3>Ewon Flexy Script</h3>
+              <p>Flexy BASIC script for timed HTTP submissions directly from an industrial edge gateway.</p>
+              <div class="button-row">
+                <a class="button ghost" href="data-submission-api/clients/ewon-flexy/">Guide</a>
+                <a class="button ghost" href="data-submission-api/clients/packages/ewon-flexy/flexy-basic.txt">Script</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="start">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <div>
+              <div class="eyebrow">Quick Start</div>
+              <h2 class="section-title">A practical path from credentials to first accepted payload.</h2>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <article class="step" data-reveal>
+              <span>Step 01</span>
+              <h3>Request Waterly credentials</h3>
+              <p>Get the submission URL, client token, and assigned device identity from the Waterly team.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>Step 02</span>
+              <h3>Choose your runtime</h3>
+              <p>Use the integration directory to select a package, script, or gateway project that fits your environment.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>Step 03</span>
+              <h3>Send a minimal payload</h3>
+              <p>Submit tag names, numeric values, and second-based timestamps using the canonical WaterlyConnect schema.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>Step 04</span>
+              <h3>Operationalize and monitor</h3>
+              <p>Move from a one-off test to scheduled jobs, gateway events, or device-side timers as appropriate.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta">
+        <div class="shell">
+          <div class="cta-panel" data-reveal>
+            <div>
+              <div class="eyebrow">Need Waterly Support?</div>
+              <h2 class="cta-title">Use the docs hub as the front door, then bring Waterly in when you need credentials or implementation guidance.</h2>
+              <p class="cta-copy">
+                Questions about endpoint values, device identifiers, or rollout
+                patterns should go through Waterly support so your configuration
+                stays aligned with the receiving environment.
+              </p>
+            </div>
+            <div class="button-row">
+              <a class="button primary" href="mailto:support@waterly.com">Email support@waterly.com</a>
+              <a class="button secondary" href="data-submission-api/clients/">Open integration directory</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <div>WaterlyConnect Developer Hub</div>
+        <div>Copyright <span data-year></span> Waterly, Inc.</div>
+      </div>
+    </footer>
+
+    <script src="assets/site/app.js"></script>
+  </body>
+</html>

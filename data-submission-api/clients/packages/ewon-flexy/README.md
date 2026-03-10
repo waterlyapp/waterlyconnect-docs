@@ -7,10 +7,9 @@ This folder contains a Flexy BASIC script (`flexy-basic.txt`) that will automati
 ## Contents
 
 ```
-waterlyconnect-clients/
-└─ flexy/
-   ├─ README.md             ← this file
-   └─ flexy-basic.txt       ← BASIC script for copy/paste to Flexy
+data-submission-api/clients/packages/ewon-flexy/
+├─ README.md        ← this file
+└─ flexy-basic.txt  ← BASIC script for copy/paste to Flexy
 ```
 
 ---
@@ -96,6 +95,5 @@ ENDIF
 ## About Flexy & Waterly
 
 The Ewon Flexy is an industrial gateway that supports PLC connectivity, remote access, and custom scripting. This integration bridges Flexy tag data directly into **WaterlyConnect** for analytics and reporting.
-
 
 

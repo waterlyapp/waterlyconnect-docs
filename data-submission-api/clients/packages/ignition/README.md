@@ -12,11 +12,10 @@ This folder contains a ready-to-import Ignition project (`ignition_to_waterly.zi
 ## Contents
 
 ```
-waterlyconnect-clients/
-└─ ignition/
-   ├─ README.md   ← this file
-   └─ ignition_to_waterly.zip  ← Ignition project export to import
-   └─ ignition_to_waterly/  ← Directory containing viewable contents of zip
+data-submission-api/clients/packages/ignition/
+├─ README.md                ← this file
+├─ ignition_to_waterly.zip  ← Ignition project export to import
+└─ ignition_to_waterly/     ← Directory containing viewable contents of zip
 ```
 
 ---
