@@ -41,7 +41,7 @@ At the top of the script, replace the placeholder token with the credentials pro
 ```basic
 $token$ = "<REDACTED>"
 $deviceId$ ="<REDACTED>"
-$url$   = "https://app.waterlyapp.com/connect/submit"
+$url$   = "https://connect.waterly.com/api/data-submission/v1/submit"
 ```
 
 Do **not** commit your token to GitHub. Store it only on your Flexy device.
@@ -80,7 +80,7 @@ ENDIF
 
 * **Console logs** (`PRINT`) appear in the Flexy diagnostic logs.
 * The script reports both request attempts and response status codes.
-* If you experience connectivity issues, verify that your Flexy can reach `https://app.waterlyapp.com`.
+* If you experience connectivity issues, verify that your Flexy can reach `https://connect.waterly.com`.
 
 ---
 
@@ -95,5 +95,3 @@ ENDIF
 ## About Flexy & Waterly
 
 The Ewon Flexy is an industrial gateway that supports PLC connectivity, remote access, and custom scripting. This integration bridges Flexy tag data directly into **WaterlyConnect** for analytics and reporting.
-
-

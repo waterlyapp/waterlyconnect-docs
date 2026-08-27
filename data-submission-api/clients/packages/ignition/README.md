@@ -53,7 +53,7 @@ In Designer, open **Project Browser ▸ Scripting ▸ Script Library ▸ waterly
 
 ```python
 # --- Waterly configuration (replace with real values) ---
-waterly_api_url = "https://app.dev.waterlyapp.com/connect/submit"
+waterly_api_url = "https://connect.dev.waterly.com/api/data-submission/v1/submit"
 waterly_device_id = "<WATERLY_DEVICE_ID>"  # provided by Waterly
 waterly_device_token = "<WATERLY_DEVICE_TOKEN>" #provided by Waterly
 # --------------------------------------------------------

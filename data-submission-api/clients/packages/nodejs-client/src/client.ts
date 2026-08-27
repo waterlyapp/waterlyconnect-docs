@@ -8,7 +8,7 @@ import { ClientDeviceInfo, RequiredRequestHeaders, Submission, TagDatum } from "
 export type WaterlyConnectApiClientConfig = {
   /**
    * The endpoint URL for the WaterlyConnect service, provided by the Waterly team.
-   * This will typically be of the form:  https://host.name/connect/submit
+   * This will typically be of the form: https://host.name/api/data-submission/v1/submit
    *
    * Please see the Waterly team if you need assistance with this value.
    */

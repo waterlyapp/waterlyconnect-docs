@@ -36,7 +36,7 @@ SendData:
   //Set connection and header
   $token$ = "<REDACTED>"
   $deviceId$ = "<REDACTED>"
-  $url$   = "https://app.waterlyapp.com/connect/submit"
+  $url$   = "https://connect.waterly.com/api/data-submission/v1/submit"
   header$ = "Content-Type=application/json&" +  "x-waterly-request-type=WaterlyConnect&" + "x-waterly-connect-token=" + $token$
 
   //------------------    Build body   -----------------------

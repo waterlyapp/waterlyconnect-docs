@@ -41,7 +41,7 @@ from waterlyconnect_client import (
 )
 
 config = WaterlyConnectApiClientConfig(
-    url="https://foo.bar/connect/submit",
+    url="https://foo.bar/api/data-submission/v1/submit",
     client_token="abcpdqxyz123",
     client_device=ClientDeviceInfo(
         id="my-fancy-device",
@@ -100,7 +100,7 @@ client.submit_data(tags)
 
 | Property        | Required | Description |
 |-----------------|----------|-------------|
-| `url`           | `true`   | The endpoint URL for the WaterlyConnect service, provided by the Waterly team. A typical value would end in `/connect/submit`. |
+| `url`           | `true`   | The endpoint URL for the WaterlyConnect service, provided by the Waterly team. A typical value would end in `/api/data-submission/v1/submit`. |
 | `client_token`  | `true`   | The unique client secret WaterlyConnect service, provided by the Waterly team. It is usually a 32 character string. Please use secure transmission and storage methods to manage this value. |
 | `client_device` | `true`   | See the section describing `ClientDeviceInfo` for more information. |
 | `proxy`         | `false`  | If your API client is behind a firewall, it may be configured here. Use a proxy URL string or a dictionary of scheme-to-proxy values. |

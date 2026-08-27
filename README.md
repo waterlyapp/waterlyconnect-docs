@@ -1,21 +1,7 @@
-# Waterly APIs
+# WaterlyConnect Developer Hub redirect
 
-Waterly provides published API documentation and integration resources for
-external systems working with Waterly and WaterClick.
+WaterlyConnect documentation is now hosted at
+[connect.waterly.com](https://connect.waterly.com/).
 
-## Published Site
-
-The GitHub Pages landing page is available at:
-
-<https://waterlyapp.github.io/waterlyconnect-docs/>
-
-## Waterly Connect Data Submission API
-
-* Overview: [data-submission-api/WaterlyConnectDataSubmissionAPI.md](data-submission-api/WaterlyConnectDataSubmissionAPI.md)
-* API reference: <https://waterlyapp.github.io/waterlyconnect-docs/data-submission-api/>
-* Client libraries and integration examples: <https://waterlyapp.github.io/waterlyconnect-docs/data-submission-api/clients/>
-
-## External User Directory API
-
-* Overview: [external-user-directory-api/ExternalUserDirectoryAPI.md](external-user-directory-api/ExternalUserDirectoryAPI.md)
-* API reference: <https://waterlyapp.github.io/waterlyconnect-docs/external-user-directory-api/>
+Client source packages and their downloadable artifacts remain under
+`data-submission-api/clients/packages/`; their generated HTML guides do not.

@@ -9,7 +9,7 @@ WaterlyConnectPost(
 )
 [
   { ----- Configuration (EDIT THESE VALUES) ----- }
-  WaterlyURL      = "https://app.waterlyapp.com/connect/submit";
+  WaterlyURL      = "https://connect.waterly.com/api/data-submission/v1/submit";
   WaterlyToken    = "<YOUR_API_TOKEN>";
   WaterlyDeviceID = "<YOUR_DEVICE_ID>";
   WaterlyTagsCsv  = "C:\\VTScada\\MyApp\\WaterlyConnect\\Config\\WaterlyTags.csv";
