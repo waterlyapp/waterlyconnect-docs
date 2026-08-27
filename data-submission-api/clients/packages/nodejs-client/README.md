@@ -28,7 +28,7 @@ import {
 } from "@waterclick/waterlyconnect-nodejs-client";
 
 const config: WaterlyConnectApiClientConfig = {
-  url: "https://foo.bar/connect/submit",
+  url: "https://foo.bar/api/data-submission/v1/submit",
   clientToken: "abcpdqxyz123",
   clientDevice: {
     id: "my-fancy-device",
@@ -78,7 +78,7 @@ WaterlyConnect service for any reason, or will complete silently when successful
 
 | Property       | Required | Description                                                                                                                                                                                               |
 |----------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `url`          | `true`   | The endpoint URL for the WaterlyConnect service, provided by the Waterly team. A typical value would end in `/connect/submit` like: https://host.name/connect/submit                                      | 
+| `url`          | `true`   | The endpoint URL for the WaterlyConnect service, provided by the Waterly team. A typical value would end in `/api/data-submission/v1/submit` like: https://host.name/api/data-submission/v1/submit |
 | `clientToken`  | `true`   | The unique client secret WaterlyConnect service, provided by the Waterly team. It is usually a 32 character string. Please use secure transmission and storage methods to manage this value.              |
 | `clientDevice` | `true`   | See the section describing `ClientDeviceInfo` for more information                                                                                                                                        |
 | `proxy`        | `false`  | If your API client is behind a firewall, it may be configured here.  This object is an Axios Proxy configuration object.  You may find more details on it [here](https://axios-http.com/docs/req_config). |

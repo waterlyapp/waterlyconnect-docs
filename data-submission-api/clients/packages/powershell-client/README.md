@@ -24,7 +24,7 @@ Import-Module ./WaterlyConnect.psm1
 $clientDevice = New-WaterlyConnectDeviceInfo -Id "my-fancy-device" -Type "SCADACo"
 
 $client = New-WaterlyConnectApiClient `
-  -Url "https://foo.bar/connect/submit" `
+  -Url "https://foo.bar/api/data-submission/v1/submit" `
   -ClientToken "abcpdqxyz123" `
   -ClientDevice $clientDevice
 
@@ -71,7 +71,7 @@ Creates an API client instance.
 
 | Parameter      | Required | Description |
 |----------------|----------|-------------|
-| `Url`          | `true`   | The endpoint URL for the WaterlyConnect service. A typical value would end in `/connect/submit`. |
+| `Url`          | `true`   | The endpoint URL for the WaterlyConnect service. A typical value would end in `/api/data-submission/v1/submit`. |
 | `ClientToken`  | `true`   | The unique client secret provided by the Waterly team. |
 | `ClientDevice` | `true`   | See `New-WaterlyConnectDeviceInfo`. |
 | `Proxy`        | `false`  | Optional proxy URL for `Invoke-RestMethod`. |

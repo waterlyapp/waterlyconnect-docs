@@ -19,7 +19,7 @@ Sample files are included in this repo:
 
 ## Script Configuration (Required Edits)
 Open `WaterlyConnect.SRC` and edit only this configuration block:
-- `WaterlyURL`: Waterly endpoint (typically `https://app.waterlyapp.com/connect/submit`)
+- `WaterlyURL`: Waterly endpoint (typically `https://connect.waterly.com/api/data-submission/v1/submit`)
 - `WaterlyToken`: your API token
 - `WaterlyDeviceID`: your device ID
 - `WaterlyTagsCsv`: full path to the CSV file (recommended under `MyApp\WaterlyConnect\Config`)
