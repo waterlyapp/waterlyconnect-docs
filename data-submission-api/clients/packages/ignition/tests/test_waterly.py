@@ -3,6 +3,7 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 from types import ModuleType, SimpleNamespace
@@ -20,6 +21,11 @@ PATHS = [
     "[default]DailyTotals/DailyStarts",
 ]
 NOW = 1800000000
+TEST_TOKEN = "fictional-gateway-token-for-tests"
+
+
+class MockJavaException(BaseException):
+    """Exercise the Java catch path independently of Python's Exception."""
 
 
 class WaterlySubmissionTests(unittest.TestCase):
@@ -34,9 +40,14 @@ class WaterlySubmissionTests(unittest.TestCase):
         self.system.net = SimpleNamespace(httpPost=Mock(return_value="OK"))
         values_module = ModuleType("com.inductiveautomation.ignition.common.model.values")
         values_module.QualityCode = SimpleNamespace(Good=self.good)
+        java_module = ModuleType("java.lang")
+        java_module.System = SimpleNamespace(getenv=Mock(return_value=TEST_TOKEN))
+        java_module.Exception = MockJavaException
+        self.getenv = java_module.System.getenv
         with patch.dict(sys.modules, {
             "system": self.system,
             values_module.__name__: values_module,
+            "java.lang": java_module,
         }):
             spec = importlib.util.spec_from_file_location("waterly_under_test", SCRIPT)
             self.waterly = importlib.util.module_from_spec(spec)
@@ -79,7 +90,12 @@ class WaterlySubmissionTests(unittest.TestCase):
         request = self.system.net.httpPost.call_args.args
         self.assertEqual(request[0], self.waterly.waterly_api_url)
         self.assertEqual(request[1], "application/json")
-        self.assertEqual(request[7]["x-waterly-connect-token"], "<WATERLY_DEVICE_TOKEN>")
+        self.assertEqual(request[3:], (
+            10000, 60000, None, None,
+            {"x-waterly-request-type": "WaterlyConnect", "x-waterly-connect-token": TEST_TOKEN},
+            False, True,
+        ))
+        self.getenv.assert_called_once_with("WATERLY_DEVICE_TOKEN")
         self.clock.assert_called_once_with()
 
     def test_single_legacy_string_path(self):
@@ -185,8 +201,76 @@ class WaterlySubmissionTests(unittest.TestCase):
     def test_http_errors_still_log_failure(self):
         self.system.net.httpPost.side_effect = RuntimeError("example HTTP failure")
         self.waterly.sendDataToWaterly(PATHS[0], send_now_time_all=True)
-        self.logger.error.assert_called_once_with("Error posting to WaterlyConnect: example HTTP failure")
+        self.logger.error.assert_called_once_with(
+            "Error posting to WaterlyConnect. Check the endpoint, Gateway token configuration, and network connectivity."
+        )
         self.logger.info.assert_not_called()
+
+    def test_token_comes_only_from_gateway_jvm_environment(self):
+        self.getenv.return_value = "fictional-other-gateway-token"
+        # A workstation/process variable must not substitute for System.getenv.
+        with patch.dict(os.environ, {"WATERLY_DEVICE_TOKEN": "fictional-workstation-token"}):
+            self.waterly.sendDataToWaterly(PATHS[0])
+        self.getenv.assert_called_once_with("WATERLY_DEVICE_TOKEN")
+        request = self.system.net.httpPost.call_args.args
+        self.assertEqual(request[7]["x-waterly-connect-token"], "fictional-other-gateway-token")
+        self.assertNotIn("fictional-other-gateway-token", request[2])
+        self.assertFalse(hasattr(self.waterly, "waterly_device_token"))
+
+    def test_missing_or_blank_token_aborts_without_a_fallback(self):
+        for token in (None, "", " ", "\t\r\n "):
+            with self.subTest(token=token):
+                self.getenv.return_value = token
+                self.getenv.reset_mock()
+                self.logger.reset_mock()
+                # Even an old script constant or local environment cannot rescue
+                # an unconfigured Gateway. No alternative variable is queried.
+                with patch.object(self.waterly, "waterly_device_token", TEST_TOKEN, create=True), \
+                        patch.dict(os.environ, {"WATERLY_DEVICE_TOKEN": TEST_TOKEN}):
+                    self.waterly.sendDataToWaterly(PATHS[0])
+                self.getenv.assert_called_once_with("WATERLY_DEVICE_TOKEN")
+                self.system.net.httpPost.assert_not_called()
+                self.system.tag.readBlocking.assert_not_called()
+                self.clock.assert_not_called()
+                self.logger.error.assert_called_once_with(
+                    "Waterly Connect configuration error: WATERLY_DEVICE_TOKEN environment variable is not set or is blank."
+                )
+                self.logger.info.assert_not_called()
+                self.assertNotIn(TEST_TOKEN, str(self.logger.mock_calls))
+
+    def test_environment_access_failure_aborts_without_logging_exception(self):
+        for error in (RuntimeError, MockJavaException):
+            with self.subTest(error=error.__name__):
+                self.logger.reset_mock()
+                self.getenv.side_effect = error("Access denied: " + TEST_TOKEN)
+                self.waterly.sendDataToWaterly(PATHS[0])
+                self.system.net.httpPost.assert_not_called()
+                self.system.tag.readBlocking.assert_not_called()
+                self.logger.error.assert_called_once_with(
+                    "Waterly Connect configuration error: cannot read WATERLY_DEVICE_TOKEN from the Gateway environment."
+                )
+                self.assertNotIn(TEST_TOKEN, str(self.logger.mock_calls))
+
+    def test_success_does_not_log_response_or_headers(self):
+        self.system.net.httpPost.return_value = "Echoed x-waterly-connect-token: " + TEST_TOKEN
+        self.waterly.sendDataToWaterly(PATHS[0])
+        self.logger.info.assert_called_once_with("Successful Post to WaterlyConnect")
+        self.logger.error.assert_not_called()
+        self.assertNotIn(TEST_TOKEN, str(self.logger.mock_calls))
+        self.assertNotIn("x-waterly-connect-token", str(self.logger.mock_calls))
+
+    def test_http_failure_does_not_log_python_or_java_exception_details(self):
+        for error in (RuntimeError, MockJavaException):
+            with self.subTest(error=error.__name__):
+                self.logger.reset_mock()
+                self.system.net.httpPost.side_effect = error("x-waterly-connect-token: " + TEST_TOKEN)
+                self.waterly.sendDataToWaterly(PATHS[0])
+                self.logger.error.assert_called_once_with(
+                    "Error posting to WaterlyConnect. Check the endpoint, Gateway token configuration, and network connectivity."
+                )
+                self.logger.info.assert_not_called()
+                self.assertNotIn(TEST_TOKEN, str(self.logger.mock_calls))
+                self.assertNotIn("x-waterly-connect-token", str(self.logger.mock_calls))
 
 
 class ProjectExportTests(unittest.TestCase):
