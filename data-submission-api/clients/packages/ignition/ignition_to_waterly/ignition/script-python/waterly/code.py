@@ -18,25 +18,42 @@ system_tags = [
 
 logger = system.util.getLogger("WaterlyConnect")
 
-def sendDataToWaterly(tags=None):
+try:
+	string_types = (basestring,)  # Ignition uses Jython 2.7, including unicode paths.
+except NameError:
+	string_types = (str,)
+
+
+def sendDataToWaterly(tags=None, send_now_time_all=False):
+	"""Send full tag paths, optionally using one execution timestamp per batch.
+
+	Each entry may be a path string or a dict with tag_name and optional
+	send_now_time (default False). send_now_time_all overrides every entry,
+	including the automatically appended system tags.
+	"""
 	#check and normalize inputs
 	tags = tags or []
-	if isinstance(tags, str):
+	if isinstance(tags, string_types) or isinstance(tags, dict):
 		tags = [tags]
 
-	tags.extend(system_tags)
+	# Keep caller-owned lists/dicts unchanged so scheduled calls can reuse them.
+	tag_configs = [tag if isinstance(tag, dict) else {"tag_name": tag} for tag in tags]
+	tag_configs.extend({"tag_name": tag_name} for tag_name in system_tags)
+	tag_paths = [config["tag_name"] for config in tag_configs]
 	# read values
-	tag_values = system.tag.readBlocking(tags)
-	# set timestamp
+	tag_values = system.tag.readBlocking(tag_paths)
+	# Capture once per invocation and reuse for the body and opted-in tags.
 	now = int(time.time())
 
 	submission_tags = []
 
 	for idx, tag in enumerate(tag_values):
-		tag_name = tags[idx]
+		config = tag_configs[idx]
+		tag_name = config["tag_name"]
 		if tag.quality == QualityCode.Good:
+			use_now = send_now_time_all or config.get("send_now_time", False)
 			submission_tags.append({
-				"last_change_timestamp" : tag.timestamp.time/1000,
+				"last_change_timestamp" : now if use_now else int(tag.timestamp.time // 1000),
 				"name" : tag_name,
 				"value" : str(tag.value)
 			})
@@ -71,4 +88,3 @@ def sendDataToWaterly(tags=None):
 	except Exception as e:
 		logger.error("Error posting to WaterlyConnect: %s" % str(e))
 	
-
