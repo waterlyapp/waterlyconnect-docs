@@ -1,6 +1,7 @@
 import system
 import time
 from com.inductiveautomation.ignition.common.model.values import QualityCode
+from java.lang import Exception as JavaException, System
 
 
 # ==========================================
@@ -8,7 +9,6 @@ from com.inductiveautomation.ignition.common.model.values import QualityCode
 # ==========================================
 waterly_api_url = "https://connect.waterly.com/api/data-submission/v1/submit"
 waterly_device_id = '<WATERLY_DEVICE_ID>'
-waterly_device_token = "<WATERLY_DEVICE_TOKEN>"
 
 system_tags = [
 	"[System]Gateway/CurrentDateTime",
@@ -31,6 +31,17 @@ def sendDataToWaterly(tags=None, send_now_time_all=False):
 	send_now_time (default False). send_now_time_all overrides every entry,
 	including the automatically appended system tags.
 	"""
+	# The Gateway JVM inherits this variable at startup. Never persist it in
+	# project resources or fall back to a token configured in the script.
+	try:
+		waterly_device_token = System.getenv("WATERLY_DEVICE_TOKEN")
+	except (Exception, JavaException):
+		logger.error("Waterly Connect configuration error: cannot read WATERLY_DEVICE_TOKEN from the Gateway environment.")
+		return
+	if not waterly_device_token or not waterly_device_token.strip():
+		logger.error("Waterly Connect configuration error: WATERLY_DEVICE_TOKEN environment variable is not set or is blank.")
+		return
+
 	#check and normalize inputs
 	tags = tags or []
 	if isinstance(tags, string_types) or isinstance(tags, dict):
@@ -73,7 +84,7 @@ def sendDataToWaterly(tags=None, send_now_time_all=False):
 	}
 	try:
 		# use 'alternate' syntax for httpPost, explicitly defining parameters
-		response = system.net.httpPost(
+		system.net.httpPost(
 			waterly_api_url,
 			"application/json",      # contentType
 			json_payload,            # postData
@@ -84,7 +95,8 @@ def sendDataToWaterly(tags=None, send_now_time_all=False):
 			False,					 # bypass cert validation
 			True					 # throw on error
 		)
-		logger.info("Successful Post to WaterlyConnect" + response)  #for debugging
-	except Exception as e:
-		logger.error("Error posting to WaterlyConnect: %s" % str(e))
-	
+		# Responses and exception messages can echo credentials. Log only
+		# fixed messages, without headers, response bodies, or exception details.
+		logger.info("Successful Post to WaterlyConnect")
+	except (Exception, JavaException):
+		logger.error("Error posting to WaterlyConnect. Check the endpoint, Gateway token configuration, and network connectivity.")
